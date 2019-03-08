@@ -38,6 +38,7 @@ import com.google.common.base.Supplier;
 import com.google.common.collect.ImmutableList;
 
 import static java.util.Collections.singletonList;
+import static org.sonatype.nexus.repository.storage.ComponentEntityAdapter.P_GROUP;
 import static org.sonatype.nexus.repository.storage.ComponentEntityAdapter.P_VERSION;
 import static org.sonatype.nexus.repository.storage.MetadataNodeEntityAdapter.P_NAME;
 
@@ -57,12 +58,14 @@ public class CondaDataAccess
   @Nullable
   public Component findComponent(final StorageTx tx,
                                  final Repository repository,
+                                 final String arch,
                                  final String name,
                                  final String version)
   {
     Iterable<Component> components = tx.findComponents(
         Query.builder()
             .where(P_NAME).eq(name)
+            .and(P_GROUP).eq(arch)
             .and(P_VERSION).eq(version)
             .build(),
         singletonList(repository)

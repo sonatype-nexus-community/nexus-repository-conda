@@ -159,10 +159,9 @@ public class CondaProxyFacetImpl
     StorageFacet storageFacet = facet(StorageFacet.class);
 
     try (TempBlob tempBlob = storageFacet.createTempBlob(content.openInputStream(), CondaDataAccess.HASH_ALGORITHMS)) {
-      //CondaAttributes condaAttributes = condaAttributeParser.getAttributesFromInputStream(tempBlob.get());
       Component component = findOrCreateComponent(arch, name, version);
 
-      return findOrCreateAsset(tempBlob, content, assetKind, assetPath);
+      return findOrCreateAsset(tempBlob, content, assetKind, assetPath, component);
     }
   }
 
@@ -170,14 +169,17 @@ public class CondaProxyFacetImpl
   protected Component findOrCreateComponent(final String arch, final String name, final String version) {
     StorageTx tx = UnitOfWork.currentTx();
     Bucket bucket = tx.findBucket(getRepository());
-    // todo handle arch
+
+    // TODO: Not sure if group is right for arch, but seems ok at first pass
     Component component = condaDataAccess.findComponent(tx,
         getRepository(),
+        arch,
         name,
         version);
 
     if (component == null) {
       component = tx.createComponent(bucket, getRepository().getFormat())
+          .group(arch)
           .name(name)
           .version(version);
     }
@@ -193,7 +195,7 @@ public class CondaProxyFacetImpl
     StorageFacet storageFacet = facet(StorageFacet.class);
 
     try (TempBlob tempBlob = storageFacet.createTempBlob(content.openInputStream(), CondaDataAccess.HASH_ALGORITHMS)) {
-      return findOrCreateAsset(tempBlob, content, assetKind, assetPath);
+      return findOrCreateAsset(tempBlob, content, assetKind, assetPath, null);
     }
   }
 
@@ -201,17 +203,26 @@ public class CondaProxyFacetImpl
   protected Content findOrCreateAsset(final TempBlob tempBlob,
                                       final Content content,
                                       final AssetKind assetKind,
-                                      final String assetPath) throws IOException
+                                      final String assetPath,
+                                      final Component component) throws IOException
   {
     StorageTx tx = UnitOfWork.currentTx();
     Bucket bucket = tx.findBucket(getRepository());
 
     Asset asset = condaDataAccess.findAsset(tx, bucket, assetPath);
 
-    if (asset == null) {
-      asset = tx.createAsset(bucket, getRepository().getFormat());
-      asset.name(assetPath);
-      asset.formatAttributes().set(P_ASSET_KIND, assetKind.name());
+    if (assetKind.equals(AssetKind.ARCH_CONDA_PACKAGE)) {
+      if (asset == null) {
+        asset = tx.createAsset(bucket, component);
+        asset.name(assetPath);
+        asset.formatAttributes().set(P_ASSET_KIND, assetKind.name());
+      }
+    } else {
+      if (asset == null) {
+        asset = tx.createAsset(bucket, getRepository().getFormat());
+        asset.name(assetPath);
+        asset.formatAttributes().set(P_ASSET_KIND, assetKind.name());
+      }
     }
 
     return condaDataAccess.saveAsset(tx, asset, tempBlob, content);
