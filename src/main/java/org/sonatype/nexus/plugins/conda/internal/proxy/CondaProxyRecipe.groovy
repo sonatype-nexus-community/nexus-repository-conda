@@ -18,6 +18,8 @@ import javax.inject.Named
 import javax.inject.Provider
 import javax.inject.Singleton
 
+import org.sonatype.nexus.plugins.conda.internal.CondaFormat
+import org.sonatype.nexus.plugins.conda.internal.CondaRecipeSupport
 import org.sonatype.nexus.repository.Format
 import org.sonatype.nexus.repository.Repository
 import org.sonatype.nexus.repository.Type
@@ -25,14 +27,13 @@ import org.sonatype.nexus.repository.cache.NegativeCacheFacet
 import org.sonatype.nexus.repository.cache.NegativeCacheHandler
 import org.sonatype.nexus.repository.http.HttpHandlers
 import org.sonatype.nexus.repository.proxy.ProxyHandler
-import org.sonatype.nexus.plugins.conda.internal.CondaFormat
-import org.sonatype.nexus.plugins.conda.internal.CondaRecipeSupport
 import org.sonatype.nexus.repository.types.ProxyType
 import org.sonatype.nexus.repository.view.ConfigurableViewFacet
 import org.sonatype.nexus.repository.view.Route
 import org.sonatype.nexus.repository.view.Router
 import org.sonatype.nexus.repository.view.ViewFacet
 import org.sonatype.nexus.repository.view.handlers.BrowseUnsupportedHandler
+import org.sonatype.nexus.repository.view.handlers.LastDownloadedHandler
 
 /**
  * @since 0.0.1
@@ -55,6 +56,9 @@ class CondaProxyRecipe
 
   @Inject
   NegativeCacheHandler negativeCacheHandler
+
+  @Inject
+  LastDownloadedHandler lastDownloadedHandler
 
   @Inject
   CondaProxyRecipe(@Named(ProxyType.NAME) final Type type,
@@ -94,6 +98,7 @@ class CondaProxyRecipe
           .handler(contentHeadersHandler)
           .handler(conditionalRequestHandler)
           .handler(unitOfWorkHandler)
+          .handler(lastDownloadedHandler)
           .handler(proxyHandler)
           .create())
     }

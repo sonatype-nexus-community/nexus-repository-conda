@@ -105,11 +105,6 @@ public class CondaProxyFacetImpl
     if (asset == null) {
       return null;
     }
-    // @todo This API changed in 3.16+
-    //if (asset.markAsDownloaded()) {
-    if (asset.markAsDownloaded(3600)) {
-      tx.saveAsset(asset);
-    }
     return condaDataAccess.toContent(asset, tx.requireBlob(asset.requireBlobRef()));
   }
 
