@@ -16,7 +16,6 @@ import javax.inject.Inject
 import javax.inject.Provider
 
 import org.sonatype.nexus.plugins.conda.internal.security.CondaSecurityFacet
-
 import org.sonatype.nexus.repository.Format
 import org.sonatype.nexus.repository.RecipeSupport
 import org.sonatype.nexus.repository.Type
@@ -32,13 +31,20 @@ import org.sonatype.nexus.repository.storage.DefaultComponentMaintenanceImpl
 import org.sonatype.nexus.repository.storage.StorageFacet
 import org.sonatype.nexus.repository.storage.UnitOfWorkHandler
 import org.sonatype.nexus.repository.view.ConfigurableViewFacet
+import org.sonatype.nexus.repository.view.Context
+import org.sonatype.nexus.repository.view.Matcher
 import org.sonatype.nexus.repository.view.handlers.BrowseUnsupportedHandler
 import org.sonatype.nexus.repository.view.handlers.ConditionalRequestHandler
 import org.sonatype.nexus.repository.view.handlers.ContentHeadersHandler
 import org.sonatype.nexus.repository.view.handlers.ExceptionHandler
 import org.sonatype.nexus.repository.view.handlers.HandlerContributor
 import org.sonatype.nexus.repository.view.handlers.TimingHandler
+import org.sonatype.nexus.repository.view.matchers.ActionMatcher
+import org.sonatype.nexus.repository.view.matchers.logic.LogicMatchers
+import org.sonatype.nexus.repository.view.matchers.token.TokenMatcher
 
+import static org.sonatype.nexus.repository.http.HttpMethods.GET
+import static org.sonatype.nexus.repository.http.HttpMethods.HEAD
 /**
  * Support for Conda recipes.
  */
@@ -105,4 +111,55 @@ abstract class CondaRecipeSupport
   protected CondaRecipeSupport(final Type type, final Format format) {
     super(type, format)
   }
+
+  //public static final String filenameIndexHtml...
+
+  static Matcher rootChannelIndexHtmlMatcher() {
+    buildTokenMatcherForPatternAndAssetKind('/index.html', AssetKind.CHANNEL_INDEX_HTML, GET, HEAD)
+  }
+
+  static Matcher rootChannelDataJsonMatcher() {
+    buildTokenMatcherForPatternAndAssetKind('/channeldata.json', AssetKind.CHANNEL_DATA_JSON, GET, HEAD)
+  }
+
+  static Matcher rootChannelRssXmlMatcher() {
+    buildTokenMatcherForPatternAndAssetKind('/rss.xml', AssetKind.CHANNEL_RSS_XML, GET, HEAD)
+  }
+
+  static Matcher archIndexHtmlMatcher() {
+    buildTokenMatcherForPatternAndAssetKind('/{arch:.+}/index.html', AssetKind.ARCH_INDEX_HTML, GET, HEAD)
+  }
+
+  static Matcher archRepodataJsonMatcher() {
+    buildTokenMatcherForPatternAndAssetKind('/{arch:.+}/repodata.json', AssetKind.ARCH_REPODATA_JSON, GET, HEAD)
+  }
+
+  static Matcher archRepodataJsonBz2Matcher() {
+    buildTokenMatcherForPatternAndAssetKind('/{arch:.+}/repodata.json.bz2', AssetKind.ARCH_REPODATA_JSON_BZ2, GET, HEAD)
+  }
+
+  static Matcher archRepodata2JsonMatcher() {
+    buildTokenMatcherForPatternAndAssetKind('/{arch:.+}/repodata2.json', AssetKind.ARCH_REPODATA2_JSON, GET, HEAD)
+  }
+
+  static Matcher archCondaPackageMatcher() {
+    buildTokenMatcherForPatternAndAssetKind('/{arch:.+}/{name:.+}-{version:.+}-{build:.+}.tar.bz2', AssetKind.ARCH_CONDA_PACKAGE, GET, HEAD)
+  }
+
+  static Matcher buildTokenMatcherForPatternAndAssetKind(final String pattern,
+                                                         final AssetKind assetKind,
+                                                         final String... actions) {
+    LogicMatchers.and(
+        new ActionMatcher(actions),
+        new TokenMatcher(pattern),
+        new Matcher() {
+          @Override
+          boolean matches(final Context context) {
+            context.attributes.set(AssetKind.class, assetKind)
+            return true
+          }
+        }
+    )
+  }
+
 }
