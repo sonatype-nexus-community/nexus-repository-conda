@@ -1,6 +1,6 @@
 /*
  * Sonatype Nexus (TM) Open Source Version
- * Copyright (c) 2018-present Sonatype, Inc.
+ * Copyright (c) 2019-present Sonatype, Inc.
  * All rights reserved. Includes the third-party code listed at http://links.sonatype.com/products/nexus/oss/attributions.
  *
  * This program and the accompanying materials are made available under the terms of the Eclipse Public License Version 1.0,
@@ -12,34 +12,34 @@
  */
 package org.sonatype.nexus.plugins.conda.internal.util;
 
-    import java.io.IOException;
-    import java.io.InputStream;
-    import java.util.List;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
 
-    import javax.annotation.Nullable;
-    import javax.inject.Named;
+import javax.annotation.Nullable;
+import javax.inject.Named;
 
-    import org.sonatype.nexus.blobstore.api.Blob;
-    import org.sonatype.nexus.common.collect.AttributesMap;
-    import org.sonatype.nexus.common.hash.HashAlgorithm;
-    import org.sonatype.nexus.repository.Repository;
-    import org.sonatype.nexus.repository.storage.Asset;
-    import org.sonatype.nexus.repository.storage.AssetBlob;
-    import org.sonatype.nexus.repository.storage.Bucket;
-    import org.sonatype.nexus.repository.storage.Component;
-    import org.sonatype.nexus.repository.storage.MetadataNodeEntityAdapter;
-    import org.sonatype.nexus.repository.storage.Query;
-    import org.sonatype.nexus.repository.storage.StorageTx;
-    import org.sonatype.nexus.repository.view.Content;
-    import org.sonatype.nexus.repository.view.Payload;
-    import org.sonatype.nexus.repository.view.payloads.BlobPayload;
+import org.sonatype.nexus.blobstore.api.Blob;
+import org.sonatype.nexus.common.collect.AttributesMap;
+import org.sonatype.nexus.common.hash.HashAlgorithm;
+import org.sonatype.nexus.repository.Repository;
+import org.sonatype.nexus.repository.storage.Asset;
+import org.sonatype.nexus.repository.storage.AssetBlob;
+import org.sonatype.nexus.repository.storage.Bucket;
+import org.sonatype.nexus.repository.storage.Component;
+import org.sonatype.nexus.repository.storage.MetadataNodeEntityAdapter;
+import org.sonatype.nexus.repository.storage.Query;
+import org.sonatype.nexus.repository.storage.StorageTx;
+import org.sonatype.nexus.repository.view.Content;
+import org.sonatype.nexus.repository.view.Payload;
+import org.sonatype.nexus.repository.view.payloads.BlobPayload;
 
-    import com.google.common.base.Supplier;
-    import com.google.common.collect.ImmutableList;
+import com.google.common.base.Supplier;
+import com.google.common.collect.ImmutableList;
 
-    import static java.util.Collections.singletonList;
-    import static org.sonatype.nexus.repository.storage.ComponentEntityAdapter.P_VERSION;
-    import static org.sonatype.nexus.repository.storage.MetadataNodeEntityAdapter.P_NAME;
+import static java.util.Collections.singletonList;
+import static org.sonatype.nexus.repository.storage.ComponentEntityAdapter.P_VERSION;
+import static org.sonatype.nexus.repository.storage.MetadataNodeEntityAdapter.P_NAME;
 
 /**
  * @since 0.0.1
