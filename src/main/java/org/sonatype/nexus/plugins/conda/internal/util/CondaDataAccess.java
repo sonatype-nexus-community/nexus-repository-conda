@@ -117,7 +117,9 @@ public class CondaDataAccess
     AssetBlob assetBlob = tx.setBlob(
         asset, asset.name(), contentSupplier, HASH_ALGORITHMS, null, contentType, false
     );
-    asset.markAsDownloaded();
+    // @todo This API changed in 3.16+
+    //asset.markAsDownloaded();
+    asset.markAsDownloaded(3600);
     tx.saveAsset(asset);
     return toContent(asset, assetBlob.getBlob());
   }
