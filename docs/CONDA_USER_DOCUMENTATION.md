@@ -42,7 +42,7 @@ Using the `conda` client, you can now download packages from your Nexus Conda pr
 
     $ conda install -c http://localhost:8081/repository/conda-proxy-main/ numpy
     
-  The command above tells conda to fetch (and install) packages from your Nexus Conda proxy. The Nexus Conda proxy will 
-  download any missing packages from the remote Conda repository, and cache the packages on the Nexus Conda proxy.
-  The next time any client requests the same package from your Nexus Conda proxy, the already cached package will
-  be returned to the client.
+The command above tells conda to fetch (and install) packages from your Nexus Conda proxy. The Nexus Conda proxy will 
+download any missing packages from the remote Conda repository, and cache the packages on the Nexus Conda proxy.
+The next time any client requests the same package from your Nexus Conda proxy, the already cached package will
+be returned to the client.
