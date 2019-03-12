@@ -17,7 +17,11 @@
 ### Introduction
 
 [Conda](https://conda.io/en/latest/) provides Package, dependency and environment management for any language—Python, R, 
-Ruby, Lua, Scala, Java, JavaScript, C/ C++, FORTRAN 
+Ruby, Lua, Scala, Java, JavaScript, C/ C++, FORTRAN.
+
+### Installing Conda
+
+Full documentation on installing `conda` can be found on [the Conda project website](https://conda.io/projects/conda/en/latest/user-guide/install/index.html?highlight=conda).
 
 ### Proxying The Conda Continuum repository
 
