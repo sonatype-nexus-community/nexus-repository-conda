@@ -28,6 +28,12 @@ import static com.google.common.base.Preconditions.checkNotNull;
 @Singleton
 public class CondaPathUtils
 {
+  public static final String RSS_XML = "rss.xml";
+
+  public static final String INDEX_HTML = "index.html";
+
+  public static final String CHANNELDATA_JSON = "channeldata.json";
+
   public TokenMatcher.State matcherState(final Context context) {
     return context.getAttributes().require(TokenMatcher.State.class);
   }
@@ -39,6 +45,8 @@ public class CondaPathUtils
   public String name(final TokenMatcher.State state) {
     return match(state, "name");
   }
+
+  public String path(final TokenMatcher.State state) { return match(state, "path"); }
 
   public String version(final TokenMatcher.State state) {
     return match(state, "version");
@@ -55,11 +63,15 @@ public class CondaPathUtils
     return result;
   }
 
+  public String buildAssetPath(final State matcherState, final String assetName) {
+    return String.format("/%s/%s", path(matcherState), assetName);
+  }
+
   public String buildArchAssetPath(final State matcherState, final String assetName) {
-    return String.format("/%s/%s", arch(matcherState), assetName);
+    return String.format("/%s/%s/%s", path(matcherState), arch(matcherState), assetName);
   }
 
   public String buildCondaPackagePath(final State matcherState) {
-    return String.format("/%s/%s-%s-%s.tar.bz2", arch(matcherState), name(matcherState), version(matcherState), build(matcherState));
+    return String.format("/%s/%s/%s-%s-%s.tar.bz2", path(matcherState), arch(matcherState), name(matcherState), version(matcherState), build(matcherState));
   }
 }
