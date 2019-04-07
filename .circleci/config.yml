@@ -36,6 +36,6 @@ jobs:
           name: Prep artifacts
           command: |
             mkdir /tmp/artifacts && \
-            cp /home/circleci/nexus-repository-r/target/nexus-repository-conda-* /tmp/artifacts
+            cp /home/circleci/nexus-repository-conda/target/nexus-repository-conda-* /tmp/artifacts
       - store_artifacts:
           path: /tmp/artifacts
