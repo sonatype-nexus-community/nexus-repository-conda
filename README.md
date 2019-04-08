@@ -114,7 +114,9 @@ Thanks to some upstream work in Nexus Repository (versions newer than 3.15), it'
 * Build the plugin with `mvn clean package -PbuildKar`
 * Copy the `nexus-repository-conda-0.0.1-bundle.kar` file from your `target` folder to the `deploy` folder for your Nexus Repository installation.
 
-If everything goes ok, within a minute or so the plugin should install itself, and you'll be able to start using it in Nexus Repository.
+Once you've done this, go ahead and either restart Nexus Repo, or go ahead and start it if it wasn't running to begin with.
+
+You should see `conda (proxy)` in the available Repository Recipes to use, if all has gone according to plan :)
 
 ### Temporary Install
 
