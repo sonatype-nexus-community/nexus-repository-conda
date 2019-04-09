@@ -24,7 +24,7 @@
   <groupId>org.sonatype.nexus.plugins</groupId>
   <artifactId>nexus-repository-conda</artifactId>
   <name>${project.groupId}:${project.artifactId}</name>
-  <version>1.0.0</version>
+  <version>0.0.1</version>
   <inceptionYear>2019</inceptionYear>
   <packaging>bundle</packaging>
 
@@ -85,6 +85,9 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <version>2.20</version>
+        <configuration>
+          <useSystemClassLoader>false</useSystemClassLoader>
+        </configuration>
       </plugin>
 
     </plugins>

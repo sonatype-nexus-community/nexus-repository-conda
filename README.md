@@ -14,9 +14,7 @@
 -->
 # Nexus Repository Conda Format
 
-[![Build Status](https://travis-ci.org/sonatype-nexus-community/nexus-repository-conda.svg?branch=master)](https://travis-ci.org/sonatype-nexus-community/nexus-repository-conda) 
-[![Join the chat at https://gitter.im/sonatype/nexus-developers](https://badges.gitter.im/sonatype/nexus-developers.svg)](https://gitter.im/sonatype/nexus-developers?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![DepShield Badge](https://depshield.sonatype.org/badges/sonatype-nexus-community/nexus-repository-conda/depshield.svg)](https://depshield.github.io)
+[![CircleCI](https://circleci.com/gh/sonatype-nexus-community/nexus-repository-conda.svg?style=svg)](https://circleci.com/gh/sonatype-nexus-community/nexus-repository-conda) [![Join the chat at https://gitter.im/sonatype/nexus-developers](https://badges.gitter.im/sonatype/nexus-developers.svg)](https://gitter.im/sonatype/nexus-developers?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![DepShield Badge](https://depshield.sonatype.org/badges/sonatype-nexus-community/nexus-repository-conda/depshield.svg)](https://depshield.github.io)
 
 # Table Of Contents
 
