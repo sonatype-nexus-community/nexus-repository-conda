@@ -52,6 +52,7 @@ import static org.sonatype.nexus.repository.storage.AssetEntityAdapter.P_ASSET_K
 @Named
 public class CondaProxyFacetImpl
     extends ProxyFacetSupport
+    implements CondaProxyFacet
 {
   private CondaPathUtils condaPathUtils;
 
@@ -99,7 +100,8 @@ public class CondaProxyFacetImpl
   }
 
   @TransactionalTouchBlob
-  protected Content getAsset(final String assetPath) {
+  //protected Content getAsset(final String assetPath) {
+  public Content getAsset(final String assetPath) {
     StorageTx tx = UnitOfWork.currentTx();
 
     Asset asset = condaDataAccess.findAsset(tx, tx.findBucket(getRepository()), assetPath);
