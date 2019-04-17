@@ -38,6 +38,41 @@
   </distributionManagement>
 
   <dependencies>
+    <!--
+    Pax-Exam test driver
+    -->
+    <dependency>
+      <groupId>org.sonatype.nexus</groupId>
+      <artifactId>nexus-pax-exam</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.ops4j.pax.exam</groupId>
+      <artifactId>pax-exam-features</artifactId>
+      <type>xml</type>
+    </dependency>
+
+    <dependency>
+      <groupId>org.sonatype.nexus</groupId>
+      <artifactId>nexus-rest-client</artifactId>
+    </dependency>
+    <!--
+    Pax-Exam test driver - end
+    -->
+
+    <dependency><!-- only needed due to testsupport reference to: org.sonatype.nexus.repository.maven.VersionPolicy -->
+      <groupId>org.sonatype.nexus.plugins</groupId>
+      <artifactId>nexus-repository-maven</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency><!-- only needed due to testsupport reference to: org.sonatype.nexus.repository.yum.DeployPolicy -->
+      <groupId>com.sonatype.nexus.plugins</groupId>
+      <artifactId>nexus-repository-yum</artifactId>
+      <version>${project.parent.version}</version>
+      <scope>provided</scope>
+    </dependency>
 
     <dependency>
       <groupId>org.sonatype.nexus</groupId>
@@ -68,6 +103,12 @@
       <scope>provided</scope>
     </dependency>
 
+    <dependency>
+      <groupId>org.sonatype.nexus.testsuite</groupId>
+      <artifactId>nexus-repository-testsupport</artifactId>
+      <version>${project.parent.version}</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 
   <build>
@@ -91,12 +132,23 @@
       </plugin>
 
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <version>2.20</version>
         <configuration>
           <useSystemClassLoader>false</useSystemClassLoader>
         </configuration>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-failsafe-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>integration-test</goal>
+              <goal>verify</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
 
       <plugin>
