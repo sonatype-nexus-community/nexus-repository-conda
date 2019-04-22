@@ -21,7 +21,7 @@
 * [Developing](#developing)
    * [Requirements](#requirements)
    * [Building](#building)
-* [Using Conda with Nexus Repository Manger 3](#using-conda-with-nexus-repository-manager-3)
+* [Using Conda with Nexus Repository Manager 3](#using-conda-with-nexus-repository-manager-3)
 * [Compatibility with Nexus Repository Manager 3 Versions](#compatibility-with-nexus-repository-manager-3-versions)
 * [Features Implemented In This Plugin](#features-implemented-in-this-plugin)
    * [Supported Conda Commands](#supported-conda-commands)
