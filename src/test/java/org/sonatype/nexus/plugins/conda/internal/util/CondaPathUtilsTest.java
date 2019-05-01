@@ -38,13 +38,13 @@ public class CondaPathUtilsTest
   private Map<String, String> tokens;
 
   @Before
-  public void setUp() throws Exception {
+  public void setUp() {
     underTest = new CondaPathUtils();
     tokens = setupTokens("3.0.0", "imaginary/path", "123", "numpy", "osx");
   }
 
   @Test
-  public void arch() throws Exception {
+  public void arch() {
     when(state.getTokens()).thenReturn(tokens);
     String result = underTest.arch(state);
 
@@ -52,7 +52,7 @@ public class CondaPathUtilsTest
   }
 
   @Test
-  public void name() throws Exception {
+  public void name() {
     when(state.getTokens()).thenReturn(tokens);
     String result = underTest.name(state);
 
@@ -60,7 +60,7 @@ public class CondaPathUtilsTest
   }
 
   @Test
-  public void path() throws Exception {
+  public void path() {
     when(state.getTokens()).thenReturn(tokens);
     String result = underTest.path(state);
 
@@ -68,7 +68,7 @@ public class CondaPathUtilsTest
   }
 
   @Test
-  public void version() throws Exception {
+  public void version() {
     when(state.getTokens()).thenReturn(tokens);
     String result = underTest.version(state);
 
@@ -76,7 +76,7 @@ public class CondaPathUtilsTest
   }
 
   @Test
-  public void build() throws Exception {
+  public void build() {
     when(state.getTokens()).thenReturn(tokens);
     String result = underTest.build(state);
 
@@ -84,7 +84,7 @@ public class CondaPathUtilsTest
   }
 
   @Test
-  public void buildAssetPath() throws Exception {
+  public void buildAssetPath() {
     when(state.getTokens()).thenReturn(tokens);
     String result = underTest.buildAssetPath(state, CondaPathUtils.INDEX_HTML);
 
@@ -92,7 +92,7 @@ public class CondaPathUtilsTest
   }
 
   @Test
-  public void buildArchAssetPath() throws Exception {
+  public void buildArchAssetPath() {
     when(state.getTokens()).thenReturn(tokens);
     String result = underTest.buildArchAssetPath(state, CondaPathUtils.INDEX_HTML);
 
@@ -100,7 +100,7 @@ public class CondaPathUtilsTest
   }
 
   @Test
-  public void buildCondaPackagePath() throws Exception {
+  public void buildCondaPackagePath() {
     when(state.getTokens()).thenReturn(tokens);
     String result = underTest.buildCondaPackagePath(state);
 
