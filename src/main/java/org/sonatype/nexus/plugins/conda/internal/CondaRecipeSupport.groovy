@@ -43,6 +43,7 @@ import org.sonatype.nexus.repository.view.matchers.ActionMatcher
 import org.sonatype.nexus.repository.view.matchers.logic.LogicMatchers
 import org.sonatype.nexus.repository.view.matchers.token.TokenMatcher
 
+import static org.sonatype.nexus.plugins.conda.internal.util.CondaPathUtils.*
 import static org.sonatype.nexus.repository.http.HttpMethods.GET
 import static org.sonatype.nexus.repository.http.HttpMethods.HEAD
 /**
@@ -115,35 +116,35 @@ abstract class CondaRecipeSupport
   //public static final String filenameIndexHtml...
 
   static Matcher rootChannelIndexHtmlMatcher() {
-    buildTokenMatcherForPatternAndAssetKind('/{path:.+}/index.html', AssetKind.CHANNEL_INDEX_HTML, GET, HEAD)
+    buildTokenMatcherForPatternAndAssetKind("/{path:.+}/${INDEX_HTML}", AssetKind.CHANNEL_INDEX_HTML, GET, HEAD)
   }
 
   static Matcher rootChannelDataJsonMatcher() {
-    buildTokenMatcherForPatternAndAssetKind('/{path:.+}/channeldata.json', AssetKind.CHANNEL_DATA_JSON, GET, HEAD)
+    buildTokenMatcherForPatternAndAssetKind("/{path:.+}/${CHANNELDATA_JSON}", AssetKind.CHANNEL_DATA_JSON, GET, HEAD)
   }
 
   static Matcher rootChannelRssXmlMatcher() {
-    buildTokenMatcherForPatternAndAssetKind('/{path:.+}/rss.xml', AssetKind.CHANNEL_RSS_XML, GET, HEAD)
+    buildTokenMatcherForPatternAndAssetKind("/{path:.+}/${RSS_XML}", AssetKind.CHANNEL_RSS_XML, GET, HEAD)
   }
 
   static Matcher archIndexHtmlMatcher() {
-    buildTokenMatcherForPatternAndAssetKind('/{path:.+}/{arch:.+}/index.html', AssetKind.ARCH_INDEX_HTML, GET, HEAD)
+    buildTokenMatcherForPatternAndAssetKind("/{path:.+}/{arch:.+}/${INDEX_HTML}", AssetKind.ARCH_INDEX_HTML, GET, HEAD)
   }
 
   static Matcher archRepodataJsonMatcher() {
-    buildTokenMatcherForPatternAndAssetKind('/{path:.+}/{arch:.+}/repodata.json', AssetKind.ARCH_REPODATA_JSON, GET, HEAD)
+    buildTokenMatcherForPatternAndAssetKind("/{path:.+}/{arch:.+}/${REPODATA_JSON}", AssetKind.ARCH_REPODATA_JSON, GET, HEAD)
   }
 
   static Matcher archRepodataJsonBz2Matcher() {
-    buildTokenMatcherForPatternAndAssetKind('/{path:.+}/{arch:.+}/repodata.json.bz2', AssetKind.ARCH_REPODATA_JSON_BZ2, GET, HEAD)
+    buildTokenMatcherForPatternAndAssetKind("/{path:.+}/{arch:.+}/${REPODATA_JSON_BZ2}", AssetKind.ARCH_REPODATA_JSON_BZ2, GET, HEAD)
   }
 
   static Matcher archRepodata2JsonMatcher() {
-    buildTokenMatcherForPatternAndAssetKind('/{path:.+}/{arch:.+}/repodata2.json', AssetKind.ARCH_REPODATA2_JSON, GET, HEAD)
+    buildTokenMatcherForPatternAndAssetKind("/{path:.+}/{arch:.+}/${REPODATA2_JSON}", AssetKind.ARCH_REPODATA2_JSON, GET, HEAD)
   }
 
   static Matcher archCondaPackageMatcher() {
-    buildTokenMatcherForPatternAndAssetKind('/{path:.+}/{arch:.+}/{name:.+}-{version:.+}-{build:.+}.tar.bz2', AssetKind.ARCH_CONDA_PACKAGE, GET, HEAD)
+    buildTokenMatcherForPatternAndAssetKind("/{path:.+}/{arch:.+}/{name:.+}-{version:.+}-{build:.+}${TAR_BZ2}", AssetKind.ARCH_CONDA_PACKAGE, GET, HEAD)
   }
 
   static Matcher buildTokenMatcherForPatternAndAssetKind(final String pattern,

@@ -41,6 +41,7 @@ import org.sonatype.nexus.repository.view.matchers.token.TokenMatcher;
 import org.sonatype.nexus.transaction.UnitOfWork;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static org.sonatype.nexus.plugins.conda.internal.util.CondaPathUtils.*;
 import static org.sonatype.nexus.repository.storage.AssetEntityAdapter.P_ASSET_KIND;
 
 /**
@@ -77,20 +78,19 @@ public class CondaProxyFacetImpl
     TokenMatcher.State matcherState = condaPathUtils.matcherState(context);
     switch (assetKind) {
       case CHANNEL_INDEX_HTML:
-        return getAsset(condaPathUtils.buildAssetPath(matcherState, CondaPathUtils.INDEX_HTML));
-        // return getAsset("/index.html");
+        return getAsset(condaPathUtils.buildAssetPath(matcherState, INDEX_HTML));
       case CHANNEL_DATA_JSON:
-        return getAsset(condaPathUtils.buildAssetPath(matcherState, CondaPathUtils.CHANNELDATA_JSON));
+        return getAsset(condaPathUtils.buildAssetPath(matcherState, CHANNELDATA_JSON));
       case CHANNEL_RSS_XML:
-        return getAsset(condaPathUtils.buildAssetPath(matcherState, CondaPathUtils.RSS_XML));
+        return getAsset(condaPathUtils.buildAssetPath(matcherState, RSS_XML));
       case ARCH_INDEX_HTML:
-        return getAsset(condaPathUtils.buildArchAssetPath(matcherState, "index.html"));
+        return getAsset(condaPathUtils.buildArchAssetPath(matcherState, INDEX_HTML));
       case ARCH_REPODATA_JSON:
-        return getAsset(condaPathUtils.buildArchAssetPath(matcherState, "repodata.json"));
+        return getAsset(condaPathUtils.buildArchAssetPath(matcherState, REPODATA_JSON));
       case ARCH_REPODATA_JSON_BZ2:
-        return getAsset(condaPathUtils.buildArchAssetPath(matcherState, "repodata.json.bz2"));
+        return getAsset(condaPathUtils.buildArchAssetPath(matcherState, REPODATA_JSON_BZ2));
       case ARCH_REPODATA2_JSON:
-        return getAsset(condaPathUtils.buildArchAssetPath(matcherState, "repodata2.json"));
+        return getAsset(condaPathUtils.buildArchAssetPath(matcherState, REPODATA2_JSON));
       case ARCH_CONDA_PACKAGE:
         return getAsset(condaPathUtils.buildCondaPackagePath(matcherState));
       default:
@@ -117,31 +117,31 @@ public class CondaProxyFacetImpl
       case CHANNEL_INDEX_HTML:
         return putMetadata(content,
             assetKind,
-            condaPathUtils.buildAssetPath(matcherState, CondaPathUtils.INDEX_HTML));
+            condaPathUtils.buildAssetPath(matcherState, INDEX_HTML));
       case CHANNEL_DATA_JSON:
         return putMetadata(content,
             assetKind,
-            condaPathUtils.buildAssetPath(matcherState, CondaPathUtils.CHANNELDATA_JSON));
+            condaPathUtils.buildAssetPath(matcherState, CHANNELDATA_JSON));
       case CHANNEL_RSS_XML:
         return putMetadata(content,
             assetKind,
-            condaPathUtils.buildAssetPath(matcherState, CondaPathUtils.RSS_XML));
+            condaPathUtils.buildAssetPath(matcherState, RSS_XML));
       case ARCH_INDEX_HTML:
         return putMetadata(content,
             assetKind,
-            condaPathUtils.buildArchAssetPath(matcherState, "/index.html"));
+            condaPathUtils.buildArchAssetPath(matcherState, INDEX_HTML));
       case ARCH_REPODATA_JSON:
         return putMetadata(content,
             assetKind,
-            condaPathUtils.buildArchAssetPath(matcherState, "/repodata.json"));
+            condaPathUtils.buildArchAssetPath(matcherState, REPODATA_JSON));
       case ARCH_REPODATA_JSON_BZ2:
         return putMetadata(content,
             assetKind,
-            condaPathUtils.buildArchAssetPath(matcherState, "/repodata.json.bz2"));
+            condaPathUtils.buildArchAssetPath(matcherState, REPODATA_JSON_BZ2));
       case ARCH_REPODATA2_JSON:
         return putMetadata(content,
             assetKind,
-            condaPathUtils.buildArchAssetPath(matcherState, "/repodata2.json"));
+            condaPathUtils.buildArchAssetPath(matcherState, REPODATA2_JSON));
       case ARCH_CONDA_PACKAGE:
         return putCondaPackage(content,
             assetKind,
