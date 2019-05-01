@@ -77,11 +77,12 @@ public class CondaProxyFacetImpl
     TokenMatcher.State matcherState = condaPathUtils.matcherState(context);
     switch (assetKind) {
       case CHANNEL_INDEX_HTML:
-        return getAsset("/index.html");
+        return getAsset(condaPathUtils.buildAssetPath(matcherState, CondaPathUtils.INDEX_HTML));
+        // return getAsset("/index.html");
       case CHANNEL_DATA_JSON:
-        return getAsset("/channeldata.json");
+        return getAsset(condaPathUtils.buildAssetPath(matcherState, CondaPathUtils.CHANNELDATA_JSON));
       case CHANNEL_RSS_XML:
-        return getAsset("/rss.xml");
+        return getAsset(condaPathUtils.buildAssetPath(matcherState, CondaPathUtils.RSS_XML));
       case ARCH_INDEX_HTML:
         return getAsset(condaPathUtils.buildArchAssetPath(matcherState, "index.html"));
       case ARCH_REPODATA_JSON:
@@ -116,15 +117,15 @@ public class CondaProxyFacetImpl
       case CHANNEL_INDEX_HTML:
         return putMetadata(content,
             assetKind,
-            "/index.html");
+            condaPathUtils.buildAssetPath(matcherState, CondaPathUtils.INDEX_HTML));
       case CHANNEL_DATA_JSON:
         return putMetadata(content,
             assetKind,
-            "/channeldata.json");
+            condaPathUtils.buildAssetPath(matcherState, CondaPathUtils.CHANNELDATA_JSON));
       case CHANNEL_RSS_XML:
         return putMetadata(content,
             assetKind,
-            "/rss.xml");
+            condaPathUtils.buildAssetPath(matcherState, CondaPathUtils.RSS_XML));
       case ARCH_INDEX_HTML:
         return putMetadata(content,
             assetKind,
