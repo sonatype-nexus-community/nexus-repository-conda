@@ -41,11 +41,11 @@ public class CondaPathUtilsTest
   public void setUp() {
     underTest = new CondaPathUtils();
     tokens = setupTokens("3.0.0", "imaginary/path", "123", "numpy", "osx");
+    when(state.getTokens()).thenReturn(tokens);
   }
 
   @Test
   public void arch() {
-    when(state.getTokens()).thenReturn(tokens);
     String result = underTest.arch(state);
 
     assertThat(result, is(equalTo("osx")));
@@ -53,7 +53,6 @@ public class CondaPathUtilsTest
 
   @Test
   public void name() {
-    when(state.getTokens()).thenReturn(tokens);
     String result = underTest.name(state);
 
     assertThat(result, is(equalTo("numpy")));
@@ -61,7 +60,6 @@ public class CondaPathUtilsTest
 
   @Test
   public void path() {
-    when(state.getTokens()).thenReturn(tokens);
     String result = underTest.path(state);
 
     assertThat(result, is(equalTo("imaginary/path")));
@@ -69,7 +67,6 @@ public class CondaPathUtilsTest
 
   @Test
   public void version() {
-    when(state.getTokens()).thenReturn(tokens);
     String result = underTest.version(state);
 
     assertThat(result, is(equalTo("3.0.0")));
@@ -77,7 +74,6 @@ public class CondaPathUtilsTest
 
   @Test
   public void build() {
-    when(state.getTokens()).thenReturn(tokens);
     String result = underTest.build(state);
 
     assertThat(result, is(equalTo("123")));
@@ -85,7 +81,6 @@ public class CondaPathUtilsTest
 
   @Test
   public void buildAssetPath() {
-    when(state.getTokens()).thenReturn(tokens);
     String result = underTest.buildAssetPath(state, CondaPathUtils.INDEX_HTML);
 
     assertThat(result, is(equalTo("/imaginary/path/index.html")));
@@ -93,7 +88,6 @@ public class CondaPathUtilsTest
 
   @Test
   public void buildArchAssetPath() {
-    when(state.getTokens()).thenReturn(tokens);
     String result = underTest.buildArchAssetPath(state, CondaPathUtils.INDEX_HTML);
 
     assertThat(result, is(equalTo("/imaginary/path/osx/index.html")));
@@ -101,7 +95,6 @@ public class CondaPathUtilsTest
 
   @Test
   public void buildCondaPackagePath() {
-    when(state.getTokens()).thenReturn(tokens);
     String result = underTest.buildCondaPackagePath(state);
 
     assertThat(result, is(equalTo("/imaginary/path/osx/numpy-3.0.0-123.tar.bz2")));
