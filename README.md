@@ -53,11 +53,11 @@ If everything checks out, the bundle for conda should be available in the `targe
 
 #### Build with Docker
 
-`docker build -t nexus-repository-conda:0.0.2 .`
+`docker build -t nexus-repository-conda:0.0.3 .`
 
 #### Run as a Docker container
 
-`docker run -d -p 8081:8081 --name nexus nexus-repository-conda:0.0.2` 
+`docker run -d -p 8081:8081 --name nexus nexus-repository-conda:0.0.3` 
 
 For further information like how to persist volumes check out [the GitHub repo for our official image](https://github.com/sonatype/docker-nexus3).
 
@@ -75,6 +75,7 @@ The table below outlines what version of Nexus Repository the plugin was built a
 |----------------|--------------------------|
 | v0.0.1         | 3.15.0-01                |
 | v0.0.2         | 3.16.1-02                |
+| v0.0.3         | 3.16.1-02                |
 
 If a new version of Nexus Repository is released and the plugin needs changes, a new release will be made, and this
 table will be updated to indicate which version of Nexus Repository it will function against. This is done on a time 
@@ -111,7 +112,7 @@ then install the plugin with the options shown below:
 Thanks to some upstream work in Nexus Repository (versions newer than 3.15), it's become a LOT easier to install a plugin. To install the `conda` plugin, follow these steps:
 
 * Build the plugin with `mvn clean package -PbuildKar`
-* Copy the `nexus-repository-conda-0.0.2-bundle.kar` file from your `target` folder to the `deploy` folder for your Nexus Repository installation.
+* Copy the `nexus-repository-conda-0.0.3-bundle.kar` file from your `target` folder to the `deploy` folder for your Nexus Repository installation.
 
 Once you've done this, go ahead and either restart Nexus Repo, or go ahead and start it if it wasn't running to begin with.
 
@@ -131,7 +132,7 @@ good installation path if you are just testing or doing development on the plugi
   # sudo su - nexus
   $ cd <nexus_dir>/bin
   $ ./nexus run
-  > bundle:install file:///tmp/nexus-repository-conda-0.0.2.jar
+  > bundle:install file:///tmp/nexus-repository-conda-0.0.3.jar
   > bundle:list
   ```
   (look for org.sonatype.nexus.plugins:nexus-repository-conda ID, should be the last one)
@@ -143,7 +144,7 @@ good installation path if you are just testing or doing development on the plugi
 
 For more permanent installs of the nexus-repository-conda plugin, follow these instructions:
 
-* Copy the bundle (nexus-repository-conda-0.0.2.jar) into <nexus_dir>/deploy
+* Copy the bundle (nexus-repository-conda-0.0.3.jar) into <nexus_dir>/deploy
 
 This will cause the plugin to be loaded with each restart of Nexus Repository. As well, this folder is monitored
 by Nexus Repository and the plugin should load within 60 seconds of being copied there if Nexus Repository
@@ -153,7 +154,7 @@ is running. You will still need to start the bundle using the karaf commands men
 
 If you are trying to use the conda plugin permanently, it likely makes more sense to do the following:
 
-* Copy the bundle into `<nexus_dir>/system/org/sonatype/nexus/plugins/nexus-repository-conda/0.0.2/nexus-repository-conda-0.0.2.jar`
+* Copy the bundle into `<nexus_dir>/system/org/sonatype/nexus/plugins/nexus-repository-conda/0.0.3/nexus-repository-conda-0.0.3.jar`
 * Make the following additions marked with + to `<nexus_dir>/system/org/sonatype/nexus/assemblies/nexus-core-feature/3.x.y/nexus-core-feature-3.x.y-features.xml`
 
    ```
@@ -164,9 +165,9 @@ If you are trying to use the conda plugin permanently, it likely makes more sens
    ```
    And
    ```
-   + <feature name="nexus-repository-conda" description="org.sonatype.nexus.plugins:nexus-repository-conda" version="0.0.2">
+   + <feature name="nexus-repository-conda" description="org.sonatype.nexus.plugins:nexus-repository-conda" version="0.0.3">
    +     <details>org.sonatype.nexus.plugins:nexus-repository-conda</details>
-   +     <bundle>mvn:org.sonatype.nexus.plugins/nexus-repository-conda/0.0.2</bundle>
+   +     <bundle>mvn:org.sonatype.nexus.plugins/nexus-repository-conda/0.0.3</bundle>
    + </feature>
     </features>
    ```
