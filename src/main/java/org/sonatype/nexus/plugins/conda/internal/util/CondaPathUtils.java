@@ -34,6 +34,14 @@ public class CondaPathUtils
 
   public static final String CHANNELDATA_JSON = "channeldata.json";
 
+  public static final String REPODATA_JSON = "repodata.json";
+
+  public static final String REPODATA_JSON_BZ2 = "repodata.json.bz2";
+
+  public static final String REPODATA2_JSON = "repodata2.json";
+
+  public static final String TAR_BZ2 = ".tar.bz2";
+
   public TokenMatcher.State matcherState(final Context context) {
     return context.getAttributes().require(TokenMatcher.State.class);
   }
@@ -72,6 +80,12 @@ public class CondaPathUtils
   }
 
   public String buildCondaPackagePath(final State matcherState) {
-    return String.format("/%s/%s/%s-%s-%s.tar.bz2", path(matcherState), arch(matcherState), name(matcherState), version(matcherState), build(matcherState));
+    return String.format("/%s/%s/%s-%s-%s%s",
+        path(matcherState),
+        arch(matcherState),
+        name(matcherState),
+        version(matcherState),
+        build(matcherState),
+        TAR_BZ2);
   }
 }
