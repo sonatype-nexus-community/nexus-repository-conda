@@ -26,7 +26,7 @@
 * [Features Implemented In This Plugin](#features-implemented-in-this-plugin)
    * [Supported Conda Commands](#supported-conda-commands)
 * [Installing the plugin](#installing-the-plugin)
-   * [Easiest Install (beta)](#easiest-install-beta)
+   * [Easiest Install](#easiest-install)
    * [Temporary Install](#temporary-install)
    * [(more) Permanent Install](#more-permanent-install)
    * [(most) Permament Install](#most-permanent-install)
