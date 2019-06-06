@@ -33,18 +33,12 @@ To proxy a Conda repository, you simply create a new 'conda (proxy)' as document
 [Repository Management](https://help.sonatype.com/repomanager3/configuration/repository-management) in
 detail. Minimal configuration steps are:
 
-- Define 'Name' - e.g. `conda-proxy-main`
-- Define URL for 'Remote storage' e.g. [https://repo.continuum.io/pkgs/main/](https://repo.continuum.io/pkgs/main/)
-
-The above example will proxy the `main` anacoda repository. You may also want to create multiple proxies to other
- repositories, with values like these:
-
-  - Name: `conda-proxy-free`, Remote Storage: [https://repo.continuum.io/pkgs/free/](https://repo.continuum.io/pkgs/free/)
-  - Name: `conda-proxy-r`, Remote Storage: [https://repo.continuum.io/pkgs/r/](https://repo.continuum.io/pkgs/r/)
+- Define 'Name' - e.g. `conda-proxy`
+- Define URL for 'Remote storage' e.g. [https://repo.continuum.io/pkgs/](https://repo.continuum.io/pkgs/)
 
 Using the `conda` client, you can now download packages from your Nexus Conda proxy like so:
 
-    $ conda install -c http://localhost:8081/repository/conda-proxy-main/ numpy
+    $ conda install -c http://localhost:8081/repository/conda-proxy/main numpy
     
 The command above tells conda to fetch (and install) packages from your Nexus Conda proxy. The Nexus Conda proxy will 
 download any missing packages from the remote Conda repository, and cache the packages on the Nexus Conda proxy.
