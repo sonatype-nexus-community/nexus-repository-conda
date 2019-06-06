@@ -26,7 +26,7 @@
 * [Features Implemented In This Plugin](#features-implemented-in-this-plugin)
    * [Supported Conda Commands](#supported-conda-commands)
 * [Installing the plugin](#installing-the-plugin)
-   * [Easiest Install (beta)](#easiest-install-beta)
+   * [Easiest Install](#easiest-install)
    * [Temporary Install](#temporary-install)
    * [(more) Permanent Install](#more-permanent-install)
    * [(most) Permament Install](#most-permanent-install)
@@ -47,7 +47,7 @@ Also, there is a good amount of information available at [Bundle Development](ht
 
 To build the project and generate the bundle use Maven
 
-    mvn clean package
+    mvn clean package -PbuildKar
 
 If everything checks out, the bundle for conda should be available in the `target` folder
 
@@ -107,7 +107,7 @@ All released versions can be found [here](https://github.com/sonatype-nexus-comm
 There are a range of options for installing the conda plugin. You'll need to build it first, and
 then install the plugin with the options shown below:
 
-### Easiest Install (beta)
+### Easiest Install
 
 Thanks to some upstream work in Nexus Repository (versions newer than 3.15), it's become a LOT easier to install a plugin. To install the `conda` plugin, follow these steps:
 
