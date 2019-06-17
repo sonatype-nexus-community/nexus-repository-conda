@@ -19,7 +19,7 @@
   <parent>
     <groupId>org.sonatype.nexus.plugins</groupId>
     <artifactId>nexus-plugins</artifactId>
-    <version>3.16.1-02</version>
+    <version>3.18.0-SNAPSHOT</version>
   </parent>
 
   <groupId>org.sonatype.nexus.plugins</groupId>
@@ -64,13 +64,6 @@
     <dependency><!-- only needed due to testsupport reference to: org.sonatype.nexus.repository.maven.VersionPolicy -->
       <groupId>org.sonatype.nexus.plugins</groupId>
       <artifactId>nexus-repository-maven</artifactId>
-      <scope>provided</scope>
-    </dependency>
-
-    <dependency><!-- only needed due to testsupport reference to: org.sonatype.nexus.repository.yum.DeployPolicy -->
-      <groupId>com.sonatype.nexus.plugins</groupId>
-      <artifactId>nexus-repository-yum</artifactId>
-      <version>${project.parent.version}</version>
       <scope>provided</scope>
     </dependency>
 
