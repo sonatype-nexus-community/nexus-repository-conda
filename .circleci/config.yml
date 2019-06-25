@@ -7,11 +7,11 @@ orbs:
 mvn-build-test-command: &mvn-build-test-command
   mvn-build-test-command: mvn clean package -PbuildKar
 
-#mvn-collect-artifacts-command: &mvn-collect-artifacts-command
-#  mvn-collect-artifacts-command: |
-#    mkdir -p ~/project/artifacts/junit/
-#    cp ~/project/target/surefire-reports/*.xml ~/project/artifacts/junit/
-#    cp ~/project/target/nexus-repository-* ~/project/artifacts/
+mvn-collect-artifacts-command: &mvn-collect-artifacts-command
+  mvn-collect-artifacts-command: |
+    mkdir -p ~/project/artifacts/junit/
+    cp ~/project/target/surefire-reports/*.xml ~/project/artifacts/junit/
+    cp ~/project/target/nexus-repository-* ~/project/artifacts/
 
 mvn-deploy-command: &mvn-deploy-command
   mvn-deploy-command: mvn -s .maven.xml clean deploy -PbuildKar -DdeployAtEnd=true -DperformRelease=true -DskipTests -Dspotbugs.skip=true
@@ -22,7 +22,7 @@ workflows:
     jobs:
       - github-maven-deploy/build-and-test:
           <<: *mvn-build-test-command
-#          <<: *mvn-collect-artifacts-command
+          <<: *mvn-collect-artifacts-command
 
       - github-maven-deploy/approve-deploy-patch-version:
           type: approval
