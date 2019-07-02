@@ -36,6 +36,11 @@ public class CondaITSupport
   @Rule
   public RepositoryRuleConda repos = new RepositoryRuleConda(() -> repositoryManager);
 
+  @Override
+  protected RepositoryRuleConda createRepositoryRule() {
+    return new RepositoryRuleConda(() -> repositoryManager);
+  }
+
   public CondaITSupport() {
     testData.addDirectory(resolveBaseFile("target/it-resources/conda"));
   }
