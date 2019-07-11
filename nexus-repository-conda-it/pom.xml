@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <parent>
+    <groupId>org.sonatype.nexus.plugins</groupId>
+    <artifactId>conda</artifactId>
+    <version>0.0.8</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+
+  <artifactId>nexus-repository-conda-it</artifactId>
+  <packaging>bundle</packaging>
+
+  <dependencies>
+    <!--
+    Pax-Exam test driver
+    -->
+    <dependency>
+      <groupId>org.sonatype.nexus</groupId>
+      <artifactId>nexus-pax-exam</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.ops4j.pax.exam</groupId>
+      <artifactId>pax-exam-features</artifactId>
+      <type>xml</type>
+    </dependency>
+
+    <dependency>
+      <groupId>org.sonatype.nexus</groupId>
+      <artifactId>nexus-rest-client</artifactId>
+    </dependency>
+    <!--
+    Pax-Exam test driver - end
+    -->
+
+
+    <dependency><!-- only needed due to testsupport reference to: org.sonatype.nexus.repository.maven.VersionPolicy -->
+      <groupId>org.sonatype.nexus.plugins</groupId>
+      <artifactId>nexus-repository-maven</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.sonatype.nexus.testsuite</groupId>
+      <artifactId>nexus-repository-testsupport</artifactId>
+      <version>3.18.0-SNAPSHOT</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.sonatype.nexus.testsuite</groupId>
+      <artifactId>nexus-it-suite</artifactId>
+      <version>3.18.0-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.sonatype.nexus.assemblies</groupId>
+      <artifactId>nexus-base-template</artifactId>
+      <version>3.18.0-SNAPSHOT</version>
+      <type>zip</type>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.sonatype.nexus.plugins</groupId>
+      <artifactId>nexus-repository-conda</artifactId>
+      <version>0.0.8</version>
+<!--      <scope>test</scope>-->
+    </dependency>
+
+  </dependencies>
+</project>
