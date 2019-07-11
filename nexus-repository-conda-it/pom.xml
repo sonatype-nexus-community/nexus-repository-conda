@@ -50,9 +50,10 @@
     </dependency>
 
     <dependency>
-      <groupId>com.sonatype.nexus.testsuite</groupId>
-      <artifactId>nexus-testsuite-data</artifactId>
+      <groupId>org.sonatype.nexus.testsuite</groupId>
+      <artifactId>nexus-it-suite-data</artifactId>
       <version>${nxrm-version}</version>
+      <scope>test</scope>
     </dependency>
 
     <dependency>
@@ -88,6 +89,30 @@
             <goals>
               <goal>generate-depends-file</goal>
             </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>unpack-testsuite-data</id>
+            <phase>process-test-resources</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <target>
+                <unzip src="${org.sonatype.nexus.testsuite:nexus-it-suite-data:jar}"
+                       dest="${project.build.directory}/it-resources">
+                  <patternset>
+                    <exclude name="META-INF/**"/>
+                  </patternset>
+                </unzip>
+              </target>
+            </configuration>
           </execution>
         </executions>
       </plugin>
