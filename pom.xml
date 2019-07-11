@@ -23,9 +23,9 @@
   </parent>
 
   <groupId>org.sonatype.nexus.plugins</groupId>
-  <artifactId>nexus-repository-conda</artifactId>
+  <artifactId>conda</artifactId>
   <version>0.0.8</version>
-  <packaging>bundle</packaging>
+  <packaging>pom</packaging>
 
   <name>${project.groupId}:${project.artifactId}</name>
   <inceptionYear>2019</inceptionYear>
@@ -37,126 +37,13 @@
     </snapshotRepository>
   </distributionManagement>
 
-  <dependencies>
-    <!--
-    Pax-Exam test driver
-    -->
-    <dependency>
-      <groupId>org.sonatype.nexus</groupId>
-      <artifactId>nexus-pax-exam</artifactId>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.ops4j.pax.exam</groupId>
-      <artifactId>pax-exam-features</artifactId>
-      <type>xml</type>
-    </dependency>
-
-    <dependency>
-      <groupId>org.sonatype.nexus</groupId>
-      <artifactId>nexus-rest-client</artifactId>
-    </dependency>
-    <!--
-    Pax-Exam test driver - end
-    -->
-
-    <dependency><!-- only needed due to testsupport reference to: org.sonatype.nexus.repository.maven.VersionPolicy -->
-      <groupId>org.sonatype.nexus.plugins</groupId>
-      <artifactId>nexus-repository-maven</artifactId>
-      <scope>provided</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.sonatype.nexus</groupId>
-      <artifactId>nexus-plugin-api</artifactId>
-      <scope>provided</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.sonatype.nexus</groupId>
-      <artifactId>nexus-repository</artifactId>
-      <scope>provided</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-compress</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>org.sonatype.goodies</groupId>
-      <artifactId>goodies-testsupport</artifactId>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.sonatype.nexus</groupId>
-      <artifactId>nexus-rapture</artifactId>
-      <scope>provided</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.sonatype.nexus.testsuite</groupId>
-      <artifactId>nexus-repository-testsupport</artifactId>
-      <version>${project.parent.version}</version>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.sonatype.nexus.testsuite</groupId>
-      <artifactId>nexus-it-suite</artifactId>
-      <version>${project.parent.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.sonatype.nexus.assemblies</groupId>
-      <artifactId>nexus-base-template</artifactId>
-      <version>${project.parent.version}</version>
-      <type>zip</type>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
+  <modules>
+    <module>nexus-repository-conda</module>
+    <module>nexus-repository-conda-it</module>
+  </modules>
 
   <build>
     <plugins>
-      <plugin>
-        <groupId>org.sonatype.nexus.buildsupport</groupId>
-        <artifactId>extjs-maven-plugin</artifactId>
-        <configuration>
-          <namespace>NX.conda</namespace>
-        </configuration>
-      </plugin>
-
-      <plugin>
-        <groupId>org.sonatype.plugins</groupId>
-        <artifactId>yuicompressor-maven-plugin</artifactId>
-      </plugin>
-
-      <plugin>
-        <groupId>org.apache.karaf.tooling</groupId>
-        <artifactId>karaf-maven-plugin</artifactId>
-      </plugin>
-
-      <plugin>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>2.20</version>
-        <configuration>
-          <useSystemClassLoader>false</useSystemClassLoader>
-        </configuration>
-      </plugin>
-
-      <plugin>
-        <artifactId>maven-failsafe-plugin</artifactId>
-        <executions>
-          <execution>
-            <goals>
-              <goal>integration-test</goal>
-              <goal>verify</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
 
       <plugin>
         <groupId>org.sonatype.plugins</groupId>
@@ -170,26 +57,6 @@
         </configuration>
       </plugin>
 
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-gpg-plugin</artifactId>
-        <version>1.6</version>
-        <executions>
-          <execution>
-            <id>sign-artifacts</id>
-            <phase>verify</phase>
-            <goals>
-              <goal>sign</goal>
-            </goals>
-            <configuration>
-              <gpgArguments>
-                <arg>--pinentry-mode</arg>
-                <arg>loopback</arg>
-              </gpgArguments>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
     </plugins>
   </build>
 </project>
