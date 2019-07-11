@@ -43,7 +43,7 @@ public class CondaProxyIT
 
   @Before
   public void setUpRepositories() throws Exception {
-    proxyRepo = repos.createCondaProxy("conda-test-proxy", "someCondaRemoteURL");
+    proxyRepo = repos.createCondaProxy("conda-test-proxy", "http://someCondaRemoteURL");
     proxyClient = rawClient(proxyRepo);
   }
 
