@@ -3,30 +3,32 @@ package org.sonatype.nexus.plugins.conda.internal;
 import javax.cache.CacheManager;
 import javax.inject.Inject;
 
+import org.sonatype.goodies.httpfixture.server.fluent.Server;
 import org.sonatype.nexus.pax.exam.NexusPaxExamSupport;
 import org.sonatype.nexus.repository.Repository;
 import org.sonatype.nexus.repository.http.HttpStatus;
 import org.sonatype.nexus.testsuite.testsupport.FormatClientSupport;
 import org.sonatype.nexus.testsuite.testsupport.NexusITSupport;
-import org.sonatype.nexus.testsuite.testsupport.raw.RawClient;
 
+import org.apache.http.client.methods.CloseableHttpResponse;
 import org.hamcrest.MatcherAssert;
 import org.junit.Before;
 import org.junit.Test;
 import org.ops4j.pax.exam.Configuration;
 import org.ops4j.pax.exam.Option;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.ops4j.pax.exam.CoreOptions.maven;
-import static org.ops4j.pax.exam.CoreOptions.mavenBundle;
-import static org.ops4j.pax.exam.CoreOptions.wrappedBundle;
+import static org.sonatype.goodies.httpfixture.server.fluent.Behaviours.content;
+import static org.sonatype.nexus.testsuite.testsupport.FormatClientSupport.status;
 
 public class CondaProxyIT
     extends CondaITSupport
 {
   public static final String TEST_PATH = "alphabet.txt";
 
-  private RawClient proxyClient;
+  //private RawClient proxyClient;
+  private CondaClient proxyClient;
 
   private Repository proxyRepo;
 
@@ -44,7 +46,8 @@ public class CondaProxyIT
   @Before
   public void setUpRepositories() throws Exception {
     proxyRepo = repos.createCondaProxy("conda-test-proxy", "http://someCondaRemoteURL");
-    proxyClient = rawClient(proxyRepo);
+    //proxyClient = rawClient(proxyRepo);
+    proxyClient = condaClient(proxyRepo);
   }
 
   @Test
@@ -52,4 +55,20 @@ public class CondaProxyIT
     MatcherAssert.assertThat(FormatClientSupport.status(proxyClient.get(TEST_PATH)), is(HttpStatus.NOT_FOUND));
   }
 
+  @Test
+  public void retrieveCondaWhenRemoteOffline() throws Exception {
+    Server server = Server.withPort(0).serve("/*")
+        .withBehaviours(content("Response"))
+        .start();
+    try {
+      //proxyClient = rawClient(repos.createRawProxy("raw-test-proxy-offline", server.getUrl().toExternalForm()));
+      proxyClient = condaClient(repos.createCondaProxy("conda-test-proxy-offline", server.getUrl().toExternalForm()));
+      final CloseableHttpResponse response = proxyClient.get(TEST_PATH);
+      log.warn("*** response: " + response.toString());
+    }
+    finally {
+      server.stop();
+    }
+    assertThat(status(proxyClient.get(TEST_PATH)), is(200));
+  }
 }
