@@ -147,31 +147,44 @@ mvn-deploy-command: &mvn-deploy-command
 workflows:
   workflow:
     jobs:
-      - github-maven-deploy/build-and-test:
+      #- github-maven-deploy/build-and-test:
+      - build-and-test:
           <<: *mvn-build-test-command
           <<: *mvn-collect-artifacts-command
 
-      - github-maven-deploy/approve-deploy-patch-version:
+      #- github-maven-deploy/approve-deploy-patch-version:
+      - approve-deploy-patch-version:
           type: approval
           requires:
-            - github-maven-deploy/build-and-test
-      - github-maven-deploy/approve-deploy-minor-version:
+            #- github-maven-deploy/build-and-test
+            - build-and-test
+      #- github-maven-deploy/approve-deploy-minor-version:
+      - approve-deploy-minor-version:
           type: approval
           requires:
-            - github-maven-deploy/build-and-test
-      - github-maven-deploy/approve-deploy-major-version:
+            #- github-maven-deploy/build-and-test
+            - build-and-test
+      #- github-maven-deploy/approve-deploy-major-version:
+      - approve-deploy-major-version:
           type: approval
           requires:
-            - github-maven-deploy/build-and-test
-      - github-maven-deploy/deploy-patch-version:
+            #- github-maven-deploy/build-and-test
+            - build-and-test
+      #- github-maven-deploy/deploy-patch-version:
+      - deploy-patch-version:
           requires:
-            - github-maven-deploy/approve-deploy-patch-version
+            #- github-maven-deploy/approve-deploy-patch-version
+            - approve-deploy-patch-version
           <<: *mvn-deploy-command
-      - github-maven-deploy/deploy-minor-version:
+      #- github-maven-deploy/deploy-minor-version:
+      - deploy-minor-version:
           requires:
-            - github-maven-deploy/approve-deploy-minor-version
+            #- github-maven-deploy/approve-deploy-minor-version
+            - approve-deploy-minor-version
           <<: *mvn-deploy-command
-      - github-maven-deploy/deploy-major-version:
+      #- github-maven-deploy/deploy-major-version:
+      - deploy-major-version:
           requires:
-            - github-maven-deploy/approve-deploy-major-version
+            #- github-maven-deploy/approve-deploy-major-version
+            - approve-deploy-major-version
           <<: *mvn-deploy-command
