@@ -1,134 +1,7 @@
 version: 2.1
 
-#orbs:
-#  github-maven-deploy: github-maven-deploy/github-maven-deploy@1.0.5
-
-executors:
-  maven-executor:
-    docker:
-      - image: circleci/openjdk:8u171-jdk
-
-deploy-defaults: &JOB_DEPLOY_DEFAULTS
-  parameters:
-    executor:
-      type: executor
-      default: maven-executor
-    mvn-deploy-command:
-      type: string
-      default: echo "mvn-deploy-command not provided" 1>&2 && exit 1
-  executor: <<parameters.executor>>
-
-jobs:
-
-  build-and-test:
-    parameters:
-      executor:
-        type: executor
-        default: maven-executor
-      mvn-build-test-command:
-        type: string
-        default: echo "mvn-build-test-command not provided" 1>&2 && exit 1
-      mvn-collect-artifacts-command:
-        type: string
-        default: echo "mvn-collect-artifacts-command not provided, proceeding without..."
-    executor: <<parameters.executor>>
-    steps:
-      - checkout
-      - restore_cache:
-          key: maven-github-release-{{ checksum ".circleci/config.yml" }}
-      - run:
-          name: Build and test script
-          command: << parameters.mvn-build-test-command >>
-      - persist_to_workspace:
-          root: .
-          paths:
-            - .
-      - run:
-          name: Optional collect artifacts script
-          shell: /bin/bash -eo pipefail -O globstar
-          command: << parameters.mvn-collect-artifacts-command >>
-      - store_artifacts:
-          path: artifacts
-      - store_test_results:
-          path: artifacts/junit
-
-  deploy-patch-version:
-    <<: *JOB_DEPLOY_DEFAULTS
-    steps:
-      - deploy-project:
-          internal_versioncommand: mvn build-helper:parse-version versions:set -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.minorVersion}.\${parsedVersion.nextIncrementalVersion} versions:commit
-          mvn-deploy-command: << parameters.mvn-deploy-command >>
-
-  deploy-minor-version:
-    <<: *JOB_DEPLOY_DEFAULTS
-    steps:
-      - deploy-project:
-          internal_versioncommand: mvn build-helper:parse-version versions:set -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.nextMinorVersion}.\${parsedVersion.incrementalVersion} versions:commit
-          mvn-deploy-command: << parameters.mvn-deploy-command >>
-
-  deploy-major-version:
-    <<: *JOB_DEPLOY_DEFAULTS
-    steps:
-      - deploy-project:
-          internal_versioncommand: mvn build-helper:parse-version versions:set -DnewVersion=\${parsedVersion.nextMajorVersion}.\${parsedVersion.minorVersion}.\${parsedVersion.incrementalVersion} versions:commit
-          mvn-deploy-command: << parameters.mvn-deploy-command >>
-
-
-commands:
-  configure-gpg:
-    steps:
-      - run:
-          name: Configure GPG private key for signing project artifacts in OSS Sonatype
-          command: |
-            echo $SECRING_GPG_ASC_BASE64 | base64 --decode | gpg --batch --no-tty --import --yes
-
-  configure-git:
-    steps:
-      - run:
-          name: Configure GIT with host fingerprint, user info and SSH key for pushing
-          command: |
-            mkdir -p ~/.ssh
-            echo "Adding github.com as known host..."
-            echo $GITHUB_FINGERPRINT >> ~/.ssh/known_hosts
-            echo "Setting private SSH key for pushing new version to repo..."
-            echo $GITHUB_COMMIT_KEY | base64 --decode >> ~/.ssh/id_rsa
-            chmod 400 ~/.ssh/id_rsa # prevents "UNPROTECTED PRIVATE KEY FILE" error
-            git config user.name "$GITHUB_USERNAME"
-
-  deploy-project:
-    parameters:
-      mvn-deploy-command:
-        type: string
-      internal_versioncommand:
-        type: string
-    steps:
-      - attach_workspace:
-          at: .
-      - restore_cache:
-          key: maven-github-release-{{ checksum ".circleci/config.yml" }}
-      - configure-gpg
-      - configure-git
-      - run:
-          name: Release new version to Maven Central and push new project version to repo
-          command: |
-            echo "Starting new release..."
-            << parameters.internal_versioncommand >>
-            MVN_VERSION=$(mvn -q -Dexec.executable="echo" -Dexec.args='${project.version}' --non-recursive exec:exec)
-            echo "Releasing version ${MVN_VERSION}..."
-            << parameters.mvn-deploy-command >>
-            echo "Pushing new version and tag..."
-            git commit -am "released ${MVN_VERSION} [skip ci]"
-            git tag -a ${MVN_VERSION} -m "Release ${MVN_VERSION}"
-            ssh-agent sh -c 'ssh-add ~/.ssh/id_rsa; git push $CIRCLE_REPOSITORY_URL'
-            ssh-agent sh -c 'ssh-add ~/.ssh/id_rsa; git push origin --tags'
-            echo "Succesfully released ${MVN_VERSION}"
-      - save_cache:
-          paths:
-            - ~/.m2
-          key: maven-github-release-{{ checksum ".circleci/config.yml" }}
-
-
-
+orbs:
+  github-maven-deploy: github-maven-deploy/github-maven-deploy@1.0.5
 
 mvn-build-test-command: &mvn-build-test-command
   mvn-build-test-command: mvn clean package -PbuildKar
@@ -146,44 +19,31 @@ mvn-deploy-command: &mvn-deploy-command
 workflows:
   workflow:
     jobs:
-      #- github-maven-deploy/build-and-test:
-      - build-and-test:
+      - github-maven-deploy/build-and-test:
           <<: *mvn-build-test-command
           <<: *mvn-collect-artifacts-command
 
-      #- github-maven-deploy/approve-deploy-patch-version:
-      - approve-deploy-patch-version:
+      - github-maven-deploy/approve-deploy-patch-version:
           type: approval
           requires:
-            #- github-maven-deploy/build-and-test
-            - build-and-test
-      #- github-maven-deploy/approve-deploy-minor-version:
-      - approve-deploy-minor-version:
+            - github-maven-deploy/build-and-test
+      - github-maven-deploy/approve-deploy-minor-version:
           type: approval
           requires:
-            #- github-maven-deploy/build-and-test
-            - build-and-test
-      #- github-maven-deploy/approve-deploy-major-version:
-      - approve-deploy-major-version:
+            - github-maven-deploy/build-and-test
+      - github-maven-deploy/approve-deploy-major-version:
           type: approval
           requires:
-            #- github-maven-deploy/build-and-test
-            - build-and-test
-      #- github-maven-deploy/deploy-patch-version:
-      - deploy-patch-version:
+            - github-maven-deploy/build-and-test
+      - github-maven-deploy/deploy-patch-version:
           requires:
-            #- github-maven-deploy/approve-deploy-patch-version
-            - approve-deploy-patch-version
+            - github-maven-deploy/approve-deploy-patch-version
           <<: *mvn-deploy-command
-      #- github-maven-deploy/deploy-minor-version:
-      - deploy-minor-version:
+      - github-maven-deploy/deploy-minor-version:
           requires:
-            #- github-maven-deploy/approve-deploy-minor-version
-            - approve-deploy-minor-version
+            - github-maven-deploy/approve-deploy-minor-version
           <<: *mvn-deploy-command
-      #- github-maven-deploy/deploy-major-version:
-      - deploy-major-version:
+      - github-maven-deploy/deploy-major-version:
           requires:
-            #- github-maven-deploy/approve-deploy-major-version
-            - approve-deploy-major-version
+            - github-maven-deploy/approve-deploy-major-version
           <<: *mvn-deploy-command
