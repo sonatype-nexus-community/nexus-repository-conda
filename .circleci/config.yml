@@ -82,12 +82,12 @@ commands:
           command: |
             echo $SECRING_GPG_ASC_BASE64 | base64 --decode | gpg --batch --no-tty --import --yes
 
-  configure-git:
-    steps:
-      - run:
-          name: Configure GIT with host fingerprint, user info and SSH key for pushing
-          command: |
-            echo "Running git stuff..."
+#  configure-git:
+#    steps:
+#      - run:
+#          name: Configure GIT with host fingerprint, user info and SSH key for pushing
+#          command: |
+#            echo "Running git stuff..."
 
   deploy-project:
     parameters:
@@ -101,7 +101,7 @@ commands:
       - restore_cache:
           key: maven-github-release-{{ checksum ".circleci/config.yml" }}
       - configure-gpg
-      - configure-git
+      #- configure-git
       - run:
           name: Release new version to Maven Central and push new project version to repo
           command: |
