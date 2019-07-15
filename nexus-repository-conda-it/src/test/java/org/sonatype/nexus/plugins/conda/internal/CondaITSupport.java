@@ -2,7 +2,9 @@ package org.sonatype.nexus.plugins.conda.internal;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 
+import javax.annotation.Nonnull;
 import javax.inject.Inject;
 
 import org.sonatype.nexus.common.log.LogManager;
@@ -23,6 +25,7 @@ import org.apache.http.entity.ContentType;
 import org.hamcrest.MatcherAssert;
 import org.junit.Rule;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
@@ -44,6 +47,20 @@ public class CondaITSupport
 
   public CondaITSupport() {
     testData.addDirectory(NexusPaxExamSupport.resolveBaseFile("target/it-resources/conda"));
+  }
+
+  @Nonnull
+  protected CondaClient condaClient(final Repository repository) throws Exception {
+    checkNotNull(repository);
+    return condaClient(repositoryBaseUrl(repository));
+  }
+
+  protected CondaClient condaClient(final URL repositoryUrl) throws Exception {
+    return new CondaClient(
+        clientBuilder(repositoryUrl).build(),
+        clientContext(),
+        repositoryUrl.toURI()
+    );
   }
 
   protected Content read(final Repository repository, final String path) throws IOException {
