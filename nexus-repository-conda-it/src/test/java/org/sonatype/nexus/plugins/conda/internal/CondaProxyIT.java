@@ -25,7 +25,9 @@ import static org.sonatype.nexus.testsuite.testsupport.FormatClientSupport.statu
 public class CondaProxyIT
     extends CondaITSupport
 {
-  public static final String TEST_PATH = "alphabet.txt";
+  //public static final String TEST_PATH = "alphabet.txt";
+  public static final String TEST_PATH = "imaginary/path/index.html";
+  //public static final String TEST_PATH = "imaginary/path/osx/numpy-3.0.0-123.tar.bz2";
 
   //private RawClient proxyClient;
   private CondaClient proxyClient;
@@ -46,7 +48,6 @@ public class CondaProxyIT
   @Before
   public void setUpRepositories() throws Exception {
     proxyRepo = repos.createCondaProxy("conda-test-proxy", "http://someCondaRemoteURL");
-    //proxyClient = rawClient(proxyRepo);
     proxyClient = condaClient(proxyRepo);
   }
 
@@ -61,7 +62,6 @@ public class CondaProxyIT
         .withBehaviours(content("Response"))
         .start();
     try {
-      //proxyClient = rawClient(repos.createRawProxy("raw-test-proxy-offline", server.getUrl().toExternalForm()));
       proxyClient = condaClient(repos.createCondaProxy("conda-test-proxy-offline", server.getUrl().toExternalForm()));
       final CloseableHttpResponse response = proxyClient.get(TEST_PATH);
       log.warn("*** response: " + response.toString());
