@@ -10,7 +10,6 @@ import org.sonatype.nexus.repository.http.HttpStatus;
 import org.sonatype.nexus.testsuite.testsupport.FormatClientSupport;
 import org.sonatype.nexus.testsuite.testsupport.NexusITSupport;
 
-import org.apache.http.client.methods.CloseableHttpResponse;
 import org.hamcrest.MatcherAssert;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,9 +24,9 @@ import static org.sonatype.nexus.testsuite.testsupport.FormatClientSupport.statu
 public class CondaProxyIT
     extends CondaITSupport
 {
-  //public static final String TEST_PATH = "alphabet.txt";
-  public static final String TEST_PATH = "imaginary/path/index.html";
-  //public static final String TEST_PATH = "imaginary/path/osx/numpy-3.0.0-123.tar.bz2";
+  //private static final String TEST_PATH = "alphabet.txt";
+  private static final String TEST_PATH = "imaginary/path/index.html";
+  //private static final String TEST_PATH = "imaginary/path/osx/numpy-3.0.0-123.tar.bz2";
 
   //private RawClient proxyClient;
   private CondaClient proxyClient;
@@ -63,8 +62,7 @@ public class CondaProxyIT
         .start();
     try {
       proxyClient = condaClient(repos.createCondaProxy("conda-test-proxy-offline", server.getUrl().toExternalForm()));
-      final CloseableHttpResponse response = proxyClient.get(TEST_PATH);
-      log.warn("*** response: " + response.toString());
+      proxyClient.get(TEST_PATH);
     }
     finally {
       server.stop();
