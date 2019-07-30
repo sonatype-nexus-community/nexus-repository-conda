@@ -30,9 +30,10 @@
   <name>${project.groupId}:${project.artifactId}</name>
   <inceptionYear>2019</inceptionYear>
 
-  <properties>
-    <nxrm-version>3.18.0-SNAPSHOT</nxrm-version>
-  </properties>
+  <modules>
+    <module>nexus-repository-conda</module>
+    <module>nexus-repository-conda-it</module>
+  </modules>
 
   <distributionManagement>
     <snapshotRepository>
@@ -41,10 +42,9 @@
     </snapshotRepository>
   </distributionManagement>
 
-  <modules>
-    <module>nexus-repository-conda</module>
-    <module>nexus-repository-conda-it</module>
-  </modules>
+  <properties>
+    <nxrm-version>3.18.0-SNAPSHOT</nxrm-version>
+  </properties>
 
   <build>
     <plugins>
