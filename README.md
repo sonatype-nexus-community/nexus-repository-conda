@@ -219,5 +219,5 @@ The main tricks are:
     1. Install NXRM OSS: in nexus-public: `./mvnw clean install -DskipTests`
     2. Run a single NXRM OSS IT: (smells funny - only needed to fetch IT deps): in nexus-public: `mvn clean verify -pl :nexus-it-suite -Dit -Dtest=skip -Dit.test=RawHostedIT`
     3. Install Conda plugin: in nexus-repository-conda (parent module): `mvn clean install -DskipTests`
-    4. Run Conda ITs: in nexus-repository-conda (parent module): `mvn clean verify -pl :nexus-repository-conda-it -Dit -Dtest=skip`
+    4. Run Conda ITs: in nexus-repository-conda (parent module): `mvn clean verify -pl :nexus-repository-conda-it -Dit -Dtest=skip` or simply via: `mvn clean verify`
     ----
