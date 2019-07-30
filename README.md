@@ -208,9 +208,8 @@ Please report any problems you find.
 The main tricks are:
 1. Refactor the project into a “format” module, and an “it” module. 
    This allows the “format” module to be bundled up and used by the IT framework classes in the “it” module.
-   In this project the sub module: nexus-repository-conda is the "format" module.
-   The sub module: nexus-repository-conda-it is the "it" module.
-   For clarity, you may want to rename the parent project to: nexus-repository-conda-parent.
+   In this project, the sub module: [nexus-repository-conda](nexus-repository-conda) is the "format" module.
+   The sub module: [nexus-repository-conda-it](nexus-repository-conda-it) is the "it" module.
       
 2. IT startup issue the first time they are run.
 
