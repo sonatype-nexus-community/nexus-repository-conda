@@ -19,10 +19,9 @@
   <parent>
     <groupId>org.sonatype.nexus.plugins</groupId>
     <artifactId>nexus-plugins</artifactId>
-    <version>3.18.0-SNAPSHOT</version>
+    <version>3.19.0-SNAPSHOT</version>
   </parent>
 
-  <groupId>org.sonatype.nexus.plugins</groupId>
   <artifactId>conda</artifactId>
   <version>0.0.8</version>
   <packaging>pom</packaging>
@@ -43,7 +42,7 @@
   </distributionManagement>
 
   <properties>
-    <nxrm-version>3.18.0-SNAPSHOT</nxrm-version>
+    <nxrm-version>3.19.0-SNAPSHOT</nxrm-version>
   </properties>
 
   <build>
