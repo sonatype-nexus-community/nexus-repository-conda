@@ -4,14 +4,15 @@ orbs:
   github-maven-deploy: github-maven-deploy/github-maven-deploy@1.0.5
 
 mvn-build-test-command: &mvn-build-test-command
-  mvn-build-test-command: mvn clean package -PbuildKar
+  mvn-build-test-command: mvn clean verify -PbuildKar
 
 
 mvn-collect-artifacts-command: &mvn-collect-artifacts-command
   mvn-collect-artifacts-command: |
     mkdir -p ~/project/artifacts/junit/
-    cp ~/project/target/surefire-reports/*.xml ~/project/artifacts/junit/
-    cp ~/project/target/nexus-repository-* ~/project/artifacts/
+    cp ~/project/nexus-repository-conda/target/surefire-reports/*.xml ~/project/artifacts/junit/
+    cp ~/project/nexus-repository-conda/target/nexus-repository-* ~/project/artifacts/
+    cp ~/project/nexus-repository-conda-it/target/failsafe-reports/*.xml ~/project/artifacts/junit/
 
 mvn-deploy-command: &mvn-deploy-command
   mvn-deploy-command: mvn -s .maven.xml clean deploy -PbuildKar -DdeployAtEnd=true -DperformRelease=true -DskipTests -Dspotbugs.skip=true
