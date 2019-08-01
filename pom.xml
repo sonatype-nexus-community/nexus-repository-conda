@@ -31,6 +31,7 @@
 
   <modules>
     <module>nexus-repository-conda</module>
+    <module>nexus-repository-it-deps</module>
     <module>nexus-repository-conda-it</module>
   </modules>
 
@@ -44,6 +45,14 @@
   <properties>
     <nxrm-version>3.19.0-SNAPSHOT</nxrm-version>
   </properties>
+
+  <repositories>
+    <!-- ensure we can find the parent pom when starting from an empty local .m2 repository -->
+    <repository>
+      <id>rso-snapshots</id>
+      <url>https://repository.sonatype.org/content/repositories/snapshots</url>
+    </repository>
+  </repositories>
 
   <build>
     <plugins>

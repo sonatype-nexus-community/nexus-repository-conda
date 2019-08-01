@@ -73,6 +73,21 @@
         </configuration>
       </plugin>
 
+      <!--
+      during 'verify' phase, ensure the new repository format plugin is installed locally, for use by ITs.
+      -->
+      <plugin>
+        <artifactId>maven-install-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>verify</phase>
+            <goals>
+              <goal>install</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
 <!--      <plugin>-->
 <!--        <artifactId>maven-failsafe-plugin</artifactId>-->
 <!--        <executions>-->
