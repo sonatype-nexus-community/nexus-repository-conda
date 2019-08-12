@@ -31,7 +31,6 @@
 
   <modules>
     <module>nexus-repository-conda</module>
-    <module>nexus-repository-it-deps</module>
     <module>nexus-repository-conda-it</module>
   </modules>
 
