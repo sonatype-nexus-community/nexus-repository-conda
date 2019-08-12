@@ -86,9 +86,9 @@
     ensure runtime dependencies required by ITs are in the local .m2/repository
     -->
     <dependency>
-      <groupId>org.sonatype.nexus.plugins</groupId>
-      <artifactId>nexus-repository-it-deps</artifactId>
-      <version>0.0.1</version>
+      <groupId>org.sonatype.nexus.buildsupport</groupId>
+      <artifactId>nexus-buildsupport-it-deps</artifactId>
+      <version>${nxrm-version}</version>
       <type>pom</type>
       <scope>test</scope>
     </dependency>
