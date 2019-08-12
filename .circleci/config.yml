@@ -4,7 +4,7 @@ orbs:
   github-maven-deploy: github-maven-deploy/github-maven-deploy@1.0.5
 
 mvn-build-test-command: &mvn-build-test-command
-  mvn-build-test-command: mvn clean verify -PbuildKar -Dit
+  mvn-build-test-command: mvn -U clean verify -PbuildKar -Dit
 
 
 mvn-collect-artifacts-command: &mvn-collect-artifacts-command
