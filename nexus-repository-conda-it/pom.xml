@@ -81,22 +81,31 @@
       <version>${project.version}</version>
       <scope>test</scope>
     </dependency>
-
-    <!--
-    ensure runtime dependencies required by ITs are in the local .m2/repository
-    -->
-    <dependency>
-      <groupId>org.sonatype.nexus.buildsupport</groupId>
-      <artifactId>nexus-buildsupport-it-deps</artifactId>
-      <version>${nxrm-version}</version>
-      <type>pom</type>
-      <scope>test</scope>
-    </dependency>
   </dependencies>
 
   <build>
     <plugins>
-
+      <!--
+      ensure runtime dependencies required by ITs are in the local .m2/repository
+      -->
+      <plugin>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>get</goal>
+            </goals>
+            <configuration>
+              <groupId>org.sonatype.nexus.buildsupport</groupId>
+              <artifactId>nexus-buildsupport-it-deps</artifactId>
+              <version>${nxrm-version}</version>
+              <packaging>pom</packaging>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      
       <!--
       Allow use of 'versionAsInProject' in Pax-Exam configuration
       -->
