@@ -4,7 +4,7 @@
 
   <parent>
     <groupId>org.sonatype.nexus.plugins</groupId>
-    <artifactId>conda</artifactId>
+    <artifactId>conda-parent</artifactId>
     <version>0.0.8</version>
   </parent>
 
