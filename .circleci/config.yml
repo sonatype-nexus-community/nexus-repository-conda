@@ -6,6 +6,7 @@ orbs:
 mvn-build-test-command: &mvn-build-test-command
   mvn-build-test-command: mvn clean package -PbuildKar
 
+
 mvn-collect-artifacts-command: &mvn-collect-artifacts-command
   mvn-collect-artifacts-command: |
     mkdir -p ~/project/artifacts/junit/
