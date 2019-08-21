@@ -24,7 +24,7 @@
 
   <groupId>org.sonatype.nexus.plugins</groupId>
   <artifactId>nexus-repository-conda</artifactId>
-  <version>0.0.14</version>
+  <version>0.0.15</version>
   <packaging>bundle</packaging>
 
   <name>${project.groupId}:${project.artifactId}</name>
