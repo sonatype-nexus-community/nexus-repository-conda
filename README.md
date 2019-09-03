@@ -218,4 +218,11 @@ The main tricks are:
 3. In the "IT" module, use `maven-dependency-plugin` to avoid IT startup issue the first time they are run.
 
    The `maven-dependency-plugin` can pull down required runtime dependencies for the IT's. 
-   See: https://github.com/sonatype-nexus-community/nexus-repository-conda/blob/conda-it-md-dr/nexus-repository-conda-it/pom.xml#L92 
+   See: https://github.com/sonatype-nexus-community/nexus-repository-conda/blob/conda-it-md-dr/nexus-repository-conda-it/pom.xml#L92
+   
+#### Debugging ITs
+
+  You can connect a remote debugger to port 5005 to debug Integration Tests. Just add the `-Dit.debug=true` argument 
+  when running ITs. For example:
+  
+    mvn clean verify -Dit.debug=true
