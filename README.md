@@ -206,18 +206,16 @@ There a still some rough edges around writing integration tests, which are noted
 Please report any problems you find. 
 
 The main tricks are:
-1. Refactor the project into a “format” module, and an “it” module. 
+1. Refactor the project into a “format” module, and an “IT” module. 
    This allows the “format” module to be bundled up and used by the IT framework classes in the “it” module.
    In this project, the sub module: [nexus-repository-conda](nexus-repository-conda) is the "format" module.
    The sub module: [nexus-repository-conda-it](nexus-repository-conda-it) is the "it" module.
       
-2. IT startup issue the first time they are run.
+2. In the "format" module, use `maven-install-plugin` during 'verify' phase, ensure the new repository format plugin is installed locally, for use by ITs.
 
-   I was struggling with some IT startup issues, and workaround steps that get the job done (until I find a better way):
-   
-    ----
-    1. Install NXRM OSS: in [nexus-public](https://github.com/sonatype/nexus-public): `./mvnw clean install -DskipTests`
-    2. Run a single NXRM OSS IT: (smells funny - only needed to fetch IT deps): in nexus-public: `mvn clean verify -pl :nexus-it-suite -Dit -Dtest=skip -Dit.test=RawHostedIT`
-    3. Install Conda plugin: in nexus-repository-conda (parent module): `mvn clean install -DskipTests`
-    4. Run Conda ITs: in nexus-repository-conda (parent module): `mvn clean verify -pl :nexus-repository-conda-it -Dit -Dtest=skip` or simply via: `mvn clean verify`
-    ----
+   See: https://github.com/sonatype-nexus-community/nexus-repository-conda/blob/conda-it-md-dr/nexus-repository-conda/pom.xml#L80
+
+3. In the "IT" module, use `maven-dependency-plugin` to avoid IT startup issue the first time they are run.
+
+   The `maven-dependency-plugin` can pull down required runtime dependencies for the IT's. 
+   See: https://github.com/sonatype-nexus-community/nexus-repository-conda/blob/conda-it-md-dr/nexus-repository-conda-it/pom.xml#L92 
