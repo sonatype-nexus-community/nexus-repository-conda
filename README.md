@@ -226,3 +226,6 @@ The main tricks are:
   when running ITs. For example:
   
     mvn clean verify -Dit.debug=true
+
+  After the IT starts, you can attach a remote debugger to port 5005. Keep trying to attach the remote debugger until
+   the conneciton succeeds.
