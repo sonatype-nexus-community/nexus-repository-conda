@@ -50,117 +50,117 @@ import static org.sonatype.nexus.repository.http.HttpMethods.HEAD
  * Support for Conda recipes.
  */
 abstract class CondaRecipeSupport
-        extends RecipeSupport
+    extends RecipeSupport
 {
-    @Inject
-    Provider<CondaSecurityFacet> securityFacet
+  @Inject
+  Provider<CondaSecurityFacet> securityFacet
 
-    @Inject
-    Provider<ConfigurableViewFacet> viewFacet
+  @Inject
+  Provider<ConfigurableViewFacet> viewFacet
 
-    @Inject
-    Provider<StorageFacet> storageFacet
+  @Inject
+  Provider<StorageFacet> storageFacet
 
-    @Inject
-    Provider<SearchFacet> searchFacet
+  @Inject
+  Provider<SearchFacet> searchFacet
 
-    @Inject
-    Provider<AttributesFacet> attributesFacet
+  @Inject
+  Provider<AttributesFacet> attributesFacet
 
-    @Inject
-    ExceptionHandler exceptionHandler
+  @Inject
+  ExceptionHandler exceptionHandler
 
-    @Inject
-    TimingHandler timingHandler
+  @Inject
+  TimingHandler timingHandler
 
-    @Inject
-    SecurityHandler securityHandler
+  @Inject
+  SecurityHandler securityHandler
 
-    @Inject
-    PartialFetchHandler partialFetchHandler
+  @Inject
+  PartialFetchHandler partialFetchHandler
 
-    @Inject
-    ConditionalRequestHandler conditionalRequestHandler
+  @Inject
+  ConditionalRequestHandler conditionalRequestHandler
 
-    @Inject
-    ContentHeadersHandler contentHeadersHandler
+  @Inject
+  ContentHeadersHandler contentHeadersHandler
 
-    @Inject
-    UnitOfWorkHandler unitOfWorkHandler
+  @Inject
+  UnitOfWorkHandler unitOfWorkHandler
 
-    @Inject
-    BrowseUnsupportedHandler browseUnsupportedHandler
+  @Inject
+  BrowseUnsupportedHandler browseUnsupportedHandler
 
-    @Inject
-    HandlerContributor handlerContributor
+  @Inject
+  HandlerContributor handlerContributor
 
-    @Inject
-    Provider<DefaultComponentMaintenanceImpl> componentMaintenanceFacet
+  @Inject
+  Provider<DefaultComponentMaintenanceImpl> componentMaintenanceFacet
 
-    @Inject
-    Provider<HttpClientFacet> httpClientFacet
+  @Inject
+  Provider<HttpClientFacet> httpClientFacet
 
-    @Inject
-    Provider<PurgeUnusedFacet> purgeUnusedFacet
+  @Inject
+  Provider<PurgeUnusedFacet> purgeUnusedFacet
 
-    @Inject
-    Provider<NegativeCacheFacet> negativeCacheFacet
+  @Inject
+  Provider<NegativeCacheFacet> negativeCacheFacet
 
-    @Inject
-    NegativeCacheHandler negativeCacheHandler
+  @Inject
+  NegativeCacheHandler negativeCacheHandler
 
-    protected CondaRecipeSupport(final Type type, final Format format) {
-        super(type, format)
-    }
+  protected CondaRecipeSupport(final Type type, final Format format) {
+    super(type, format)
+  }
 
-    //public static final String filenameIndexHtml...
+  //public static final String filenameIndexHtml...
 
-    static Matcher rootChannelIndexHtmlMatcher() {
-        buildTokenMatcherForPatternAndAssetKind("/{path:.+}/${INDEX_HTML}", AssetKind.CHANNEL_INDEX_HTML, GET, HEAD)
-    }
+  static Matcher rootChannelIndexHtmlMatcher() {
+    buildTokenMatcherForPatternAndAssetKind("/{path:.+}/${INDEX_HTML}", AssetKind.CHANNEL_INDEX_HTML, GET, HEAD)
+  }
 
-    static Matcher rootChannelDataJsonMatcher() {
-        buildTokenMatcherForPatternAndAssetKind("/{path:.+}/${CHANNELDATA_JSON}", AssetKind.CHANNEL_DATA_JSON, GET, HEAD)
-    }
+  static Matcher rootChannelDataJsonMatcher() {
+    buildTokenMatcherForPatternAndAssetKind("/{path:.+}/${CHANNELDATA_JSON}", AssetKind.CHANNEL_DATA_JSON, GET, HEAD)
+  }
 
-    static Matcher rootChannelRssXmlMatcher() {
-        buildTokenMatcherForPatternAndAssetKind("/{path:.+}/${RSS_XML}", AssetKind.CHANNEL_RSS_XML, GET, HEAD)
-    }
+  static Matcher rootChannelRssXmlMatcher() {
+    buildTokenMatcherForPatternAndAssetKind("/{path:.+}/${RSS_XML}", AssetKind.CHANNEL_RSS_XML, GET, HEAD)
+  }
 
-    static Matcher archIndexHtmlMatcher() {
-        buildTokenMatcherForPatternAndAssetKind("/{path:.+}/{arch:.+}/${INDEX_HTML}", AssetKind.ARCH_INDEX_HTML, GET, HEAD)
-    }
+  static Matcher archIndexHtmlMatcher() {
+    buildTokenMatcherForPatternAndAssetKind("/{path:.+}/{arch:.+}/${INDEX_HTML}", AssetKind.ARCH_INDEX_HTML, GET, HEAD)
+  }
 
-    static Matcher archRepodataJsonMatcher() {
-        buildTokenMatcherForPatternAndAssetKind("/{path:.+}/{arch:.+}/${REPODATA_JSON}", AssetKind.ARCH_REPODATA_JSON, GET, HEAD)
-    }
+  static Matcher archRepodataJsonMatcher() {
+    buildTokenMatcherForPatternAndAssetKind("/{path:.+}/{arch:.+}/${REPODATA_JSON}", AssetKind.ARCH_REPODATA_JSON, GET, HEAD)
+  }
 
-    static Matcher archRepodataJsonBz2Matcher() {
-        buildTokenMatcherForPatternAndAssetKind("/{path:.+}/{arch:.+}/${REPODATA_JSON_BZ2}", AssetKind.ARCH_REPODATA_JSON_BZ2, GET, HEAD)
-    }
+  static Matcher archRepodataJsonBz2Matcher() {
+    buildTokenMatcherForPatternAndAssetKind("/{path:.+}/{arch:.+}/${REPODATA_JSON_BZ2}", AssetKind.ARCH_REPODATA_JSON_BZ2, GET, HEAD)
+  }
 
-    static Matcher archRepodata2JsonMatcher() {
-        buildTokenMatcherForPatternAndAssetKind("/{path:.+}/{arch:.+}/${REPODATA2_JSON}", AssetKind.ARCH_REPODATA2_JSON, GET, HEAD)
-    }
+  static Matcher archRepodata2JsonMatcher() {
+    buildTokenMatcherForPatternAndAssetKind("/{path:.+}/{arch:.+}/${REPODATA2_JSON}", AssetKind.ARCH_REPODATA2_JSON, GET, HEAD)
+  }
 
-    static Matcher archCondaPackageMatcher() {
-        buildTokenMatcherForPatternAndAssetKind("/{path:.+}/{arch:.+}/{name:.+}-{version:.+}-{build:.+}${TAR_BZ2}", AssetKind.ARCH_CONDA_PACKAGE, GET, HEAD)
-    }
+  static Matcher archCondaPackageMatcher() {
+    buildTokenMatcherForPatternAndAssetKind("/{path:.+}/{arch:.+}/{name:.+}-{version:.+}-{build:.+}${TAR_BZ2}", AssetKind.ARCH_CONDA_PACKAGE, GET, HEAD)
+  }
 
-    static Matcher buildTokenMatcherForPatternAndAssetKind(final String pattern,
-                                                           final AssetKind assetKind,
-                                                           final String... actions) {
-        LogicMatchers.and(
-                new ActionMatcher(actions),
-                new TokenMatcher(pattern),
-                new Matcher() {
-                    @Override
-                    boolean matches(final Context context) {
-                        context.attributes.set(AssetKind.class, assetKind)
-                        return true
-                    }
-                }
-        )
-    }
+  static Matcher buildTokenMatcherForPatternAndAssetKind(final String pattern,
+                                                         final AssetKind assetKind,
+                                                         final String... actions) {
+    LogicMatchers.and(
+        new ActionMatcher(actions),
+        new TokenMatcher(pattern),
+        new Matcher() {
+          @Override
+          boolean matches(final Context context) {
+            context.attributes.set(AssetKind.class, assetKind)
+            return true
+          }
+        }
+    )
+  }
 
 }
