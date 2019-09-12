@@ -19,6 +19,9 @@ import org.sonatype.nexus.repository.view.Context;
 import org.sonatype.nexus.repository.view.matchers.token.TokenMatcher;
 import org.sonatype.nexus.repository.view.matchers.token.TokenMatcher.State;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
@@ -39,6 +42,8 @@ public class CondaPathUtils
   public static final String REPODATA_JSON_BZ2 = "repodata.json.bz2";
 
   public static final String REPODATA2_JSON = "repodata2.json";
+
+  public static final List<String> CONDA_META_DATA = Arrays.asList(RSS_XML, INDEX_HTML, CHANNELDATA_JSON, REPODATA_JSON, REPODATA_JSON_BZ2,REPODATA2_JSON);
 
   public static final String TAR_BZ2 = ".tar.bz2";
 

@@ -129,7 +129,7 @@ public class CondaDataAccess
    *
    * @return content of asset blob
    */
-  public Content toContent(final Asset asset, final Blob blob) {
+  public static Content toContent(final Asset asset, final Blob blob) {
     Content content = new Content(new BlobPayload(blob, asset.requireContentType()));
     Content.extractFromAsset(asset, HASH_ALGORITHMS, content.getAttributes());
     return content;
