@@ -41,6 +41,7 @@ import org.sonatype.nexus.repository.view.matchers.token.TokenMatcher;
 import org.sonatype.nexus.transaction.UnitOfWork;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static org.sonatype.nexus.plugins.conda.internal.util.CondaDataAccess.toContent;
 import static org.sonatype.nexus.plugins.conda.internal.util.CondaPathUtils.*;
 import static org.sonatype.nexus.repository.storage.AssetEntityAdapter.P_ASSET_KIND;
 
@@ -65,7 +66,7 @@ public class CondaProxyFacetImpl
     this.condaDataAccess = checkNotNull(condaDataAccess);
   }
 
-  // HACK: Workaround for known CGLIB issue, forces an Import-Package for org.sonatype.nexus.repository.config
+  // HACK: Workaround for known CGLIB issue, forces an Import-PackageIndex for org.sonatype.nexus.repository.config
   @Override
   protected void doValidate(final Configuration configuration) throws Exception {
     super.doValidate(configuration);
@@ -106,7 +107,7 @@ public class CondaProxyFacetImpl
     if (asset == null) {
       return null;
     }
-    return condaDataAccess.toContent(asset, tx.requireBlob(asset.requireBlobRef()));
+    return toContent(asset, tx.requireBlob(asset.requireBlobRef()));
   }
 
   @Override
