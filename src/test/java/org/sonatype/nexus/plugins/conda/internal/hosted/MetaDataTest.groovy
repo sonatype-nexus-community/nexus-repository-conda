@@ -1,7 +1,7 @@
 package org.sonatype.nexus.plugins.conda.internal.hosted
 
 import org.sonatype.nexus.plugins.conda.internal.hosted.metadata.ChannelData
-import org.sonatype.nexus.plugins.conda.internal.hosted.metadata.PackageIndex
+import org.sonatype.nexus.plugins.conda.internal.hosted.metadata.PackageDesc
 import org.sonatype.nexus.plugins.conda.internal.hosted.metadata.RepoData
 
 import static org.sonatype.nexus.plugins.conda.internal.hosted.metadata.MetaData.asChannelData
@@ -136,7 +136,7 @@ class MetaDataTest extends GroovyTestCase {
     }
 
     void test_can_parse_index_json() {
-        PackageIndex pack = asIndex(packageJson)
+        PackageDesc pack = asIndex(packageJson)
         assert pack.build == 'py_0'
         assert pack.depends.contains('click >=7.0')
         assert pack.timestamp == 1566283016272l
@@ -146,7 +146,7 @@ class MetaDataTest extends GroovyTestCase {
         RepoData repoData = asRepoData(repoDataJson)
         assert repoData.info.subdir == 'linux-64'
 
-        PackageIndex scipyPackage = repoData.packages['scipy-1.1.0-py37hfa4b5c9_1.tar.bz2']
+        PackageDesc scipyPackage = repoData.packages['scipy-1.1.0-py37hfa4b5c9_1.tar.bz2']
         assert scipyPackage.build == 'py37hfa4b5c9_1'
         assert scipyPackage.depends.contains('libstdcxx-ng >=7.3.0')
     }

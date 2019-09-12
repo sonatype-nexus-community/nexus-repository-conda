@@ -14,11 +14,7 @@ package org.sonatype.nexus.plugins.conda.internal.hosted;
 
 import com.google.common.collect.Streams;
 import groovy.json.JsonOutput;
-import groovy.lang.Tuple2;
-import org.apache.commons.lang.StringUtils;
 import org.sonatype.nexus.common.collect.AttributesMap;
-import org.sonatype.nexus.common.collect.NestedAttributesMap;
-import org.sonatype.nexus.common.hash.HashAlgorithm;
 import org.sonatype.nexus.plugins.conda.internal.hosted.metadata.*;
 import org.sonatype.nexus.plugins.conda.internal.util.CondaDataAccess;
 import org.sonatype.nexus.repository.FacetSupport;
@@ -39,13 +35,11 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.IOException;
 import java.util.*;
-import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.Collections.singletonList;
-import static org.apache.commons.lang.StringUtils.isEmpty;
-import static org.apache.commons.lang.StringUtils.isNotEmpty;
+import static org.sonatype.nexus.plugins.conda.internal.hosted.Utils.toAttributes;
 import static org.sonatype.nexus.plugins.conda.internal.hosted.metadata.MetaData.asIndex;
 import static org.sonatype.nexus.plugins.conda.internal.hosted.metadata.MetaData.readIndexJson;
 import static org.sonatype.nexus.plugins.conda.internal.util.CondaDataAccess.HASH_ALGORITHMS;
@@ -132,26 +126,10 @@ public class CondaHostedFacetImpl
         Content content = toContent(asset, assetBlob.getBlob());
         if (!path.contains("repodata.json")) {
             String json = readIndexJson(content.openInputStream());
-            fillAttributes(asIndex(json), asset.formatAttributes());
+            toAttributes(asIndex(json), asset.formatAttributes());
         }
         tx.saveAsset(asset);
         return content;
-    }
-
-    private void fillAttributes(PackageIndex packageIndex, NestedAttributesMap attributesMap) {
-        attributesMap.set("arch", StringUtils.isEmpty(packageIndex.getArch()) ? "noarch" : packageIndex.getArch());
-        attributesMap.set("build", packageIndex.getBuild());
-        attributesMap.set("build_number", packageIndex.getBuild_number());
-        attributesMap.set("noarch", packageIndex.getNoarch());
-        attributesMap.set("version", packageIndex.getVersion());
-        attributesMap.set("platform", isEmpty(packageIndex.getPlatform()) ? "UNKNOWN" : packageIndex.getPlatform());
-        attributesMap.set("subdir", packageIndex.getSubdir());
-        attributesMap.set("depends", packageIndex.getDepends().stream().collect(Collectors.joining(";")));
-        attributesMap.set("name", packageIndex.getName());
-        attributesMap.set("license", packageIndex.getLicense());
-        if (isNotEmpty(packageIndex.getLicense_family())) {
-            attributesMap.set("license_family", packageIndex.getLicense_family());
-        }
     }
 
     @Override
@@ -166,9 +144,9 @@ public class CondaHostedFacetImpl
                 .stream(tx.browseAssets(bucket).spliterator(), false)
                 .filter(asset -> !asset.name().endsWith("repodata.json"))
                 .filter(asset -> tx.findComponent(asset.componentId()) != null)
-                .map(this::toPackageIndex)
+                .map(Utils::toPackageDesc)
                 .forEach(tuple -> {
-                    PackageIndex index = tuple.getSecond();
+                    PackageDesc index = tuple.getSecond();
                     String fileName = tuple.getFirst();
                     takeOrCreate(architectures, index.getArch())
                             .getPackages()
@@ -194,37 +172,8 @@ public class CondaHostedFacetImpl
 
     private RepoData createRepoData(String arch) {
         RepoData repoData = new RepoData();
-        repoData.setPackages(new HashMap<>());
-        repoData.setInfo(new Info());
         repoData.getInfo().setSubdir(arch);
-        repoData.setRepodata_version(1);
         return repoData;
-    }
-
-    private Tuple2<String, PackageIndex> toPackageIndex(Asset asset) {
-
-        NestedAttributesMap attributes = asset.formatAttributes();
-        PackageIndex packageIndex = new PackageIndex();
-
-        packageIndex.setSize(asset.size().longValue());
-        packageIndex.setMd5(asset.getChecksum(HashAlgorithm.MD5).toString());
-
-        packageIndex.setArch(attributes.get("arch", "").toString());
-        packageIndex.setBuild_number(Integer.parseInt(attributes.get("build_number", "").toString()));
-        packageIndex.setBuild(attributes.get("build", "").toString());
-        packageIndex.setLicense(attributes.get("license", "").toString());
-
-        if (attributes.contains("license_family"))
-            packageIndex.setLicense_family(attributes.get("license_family").toString());
-
-        packageIndex.setName(attributes.get("name", "").toString());
-        packageIndex.setPlatform(attributes.get("platform", "").toString());
-        packageIndex.setSubdir(attributes.get("subdir", "").toString());
-        packageIndex.setVersion(attributes.get("version", "").toString());
-
-        packageIndex.setDepends(Arrays.asList(attributes.get("depends", "").toString().split(";")));
-        String fineName = CondaPath.build(asset.name()).getFileName();
-        return new Tuple2<>(fineName, packageIndex);
     }
 
     @TransactionalStoreMetadata

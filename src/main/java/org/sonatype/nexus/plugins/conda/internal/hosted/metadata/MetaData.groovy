@@ -2,7 +2,6 @@ package org.sonatype.nexus.plugins.conda.internal.hosted.metadata
 
 
 import groovy.json.JsonSlurper
-import org.apache.commons.compress.archivers.ArchiveException
 import org.apache.commons.compress.archivers.ArchiveStreamFactory
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream
@@ -10,7 +9,7 @@ import org.apache.commons.compress.compressors.bzip2.BZip2CompressorInputStream
 
 import java.util.stream.Collectors
 
-class PackageDesc {
+class PackageInfo {
     //String activate.d
     boolean binary_prefix
     //deactivate.d
@@ -32,7 +31,7 @@ class PackageDesc {
 
 class ChannelData {
     int channeldata_version
-    Map<String, PackageDesc> packages
+    Map<String, PackageInfo> packages
     Set<String> subdirs
 }
 
@@ -40,7 +39,7 @@ class Info {
     String subdir
 }
 
-class PackageIndex {
+class PackageDesc {
     String arch
     String build
     int build_number
@@ -59,9 +58,9 @@ class PackageIndex {
 }
 
 class RepoData {
-    Info info
-    Map<String, PackageIndex> packages
-    int repodata_version
+    Info info = new Info()
+    Map<String, PackageDesc> packages = new HashMap<>()
+    int repodata_version =1
     Object packages_conda
     List<String> removed
 }
@@ -94,8 +93,8 @@ class MetaData {
         }
     }
 
-    static PackageIndex asIndex(String json) {
-        new JsonSlurper().parseText(json) as PackageIndex
+    static PackageDesc asIndex(String json) {
+        new JsonSlurper().parseText(json) as PackageDesc
     }
 
     static RepoData asRepoData(String json) {
