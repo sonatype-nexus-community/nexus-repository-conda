@@ -13,7 +13,7 @@
 /*global Ext, NX*/
 
 /**
- * Repository "Settings" form for a helm Hosted repository.
+ * Repository "Settings" form for a Conda Hosted repository.
  *
  * @since 0.0.2
  */
