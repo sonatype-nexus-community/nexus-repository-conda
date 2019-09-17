@@ -19,6 +19,7 @@ import org.sonatype.nexus.plugins.conda.internal.hosted.metadata.*;
 import org.sonatype.nexus.plugins.conda.internal.util.CondaDataAccess;
 import org.sonatype.nexus.repository.FacetSupport;
 import org.sonatype.nexus.repository.Repository;
+import org.sonatype.nexus.repository.config.Configuration;
 import org.sonatype.nexus.repository.storage.*;
 import org.sonatype.nexus.repository.transaction.TransactionalDeleteBlob;
 import org.sonatype.nexus.repository.transaction.TransactionalStoreBlob;
@@ -60,6 +61,12 @@ public class CondaHostedFacetImpl
     @Inject
     public CondaHostedFacetImpl(final CondaDataAccess condaDataAccess) {
         this.condaDataAccess = checkNotNull(condaDataAccess);
+    }
+
+    @Override
+    protected void doInit(Configuration configuration) throws Exception {
+        super.doInit(configuration);
+        getRepository().facet(StorageFacet.class).registerWritePolicySelector(new CondaWritePolicySelector());
     }
 
     @Override
@@ -207,6 +214,7 @@ public class CondaHostedFacetImpl
                     log.debug("Create new component and asset");
                     Component component = condaPath.getCoordinates()
                             .map(coordinates -> tx.createComponent(bucket, getRepository().getFormat())
+                                    .group(componentGroup)
                                     .name(componentName)
                                     .version(coordinates.getVersion())
                             ).orElse(tx.createComponent(bucket, getRepository().getFormat())
