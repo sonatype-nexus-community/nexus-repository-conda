@@ -115,5 +115,4 @@ class MetaData {
     static ChannelData asChannelData(String json) {
         new JsonSlurper().parseText(json) as ChannelData
     }
-
 }

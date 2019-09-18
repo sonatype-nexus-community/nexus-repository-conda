@@ -171,5 +171,4 @@ class MetaDataTest extends GroovyTestCase {
         assert scipy.doc_url == 'http://www.scipy.org/docs.html'
         assert scipy.subdirs.containsAll(['linux-64', 'osx-64'])
     }
-
 }
