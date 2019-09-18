@@ -30,10 +30,8 @@ import javax.inject.Named
 import javax.inject.Provider
 import javax.inject.Singleton
 
+import static org.sonatype.nexus.plugins.conda.internal.hosted.HandlerProvider.*
 import static org.sonatype.nexus.repository.http.HttpMethods.*
-import static org.sonatype.nexus.repository.http.HttpResponses.methodNotAllowed
-import static org.sonatype.nexus.repository.http.HttpResponses.notFound
-import static org.sonatype.nexus.repository.http.HttpResponses.ok
 import static org.sonatype.nexus.repository.view.matchers.logic.LogicMatchers.and
 
 /**
@@ -65,7 +63,6 @@ class CondaHostedRecipe
         repository.attach(attributesFacet.get())
     }
 
-
     /**
      * Match conda metadata files
      */
@@ -78,7 +75,7 @@ class CondaHostedRecipe
     }
 
     /**
-     * Conda path matcher - verifies path has conda alike structure
+     * Conda path matcher - verifies path has conda like structure
      */
     static Matcher condaPathMatcher = {
         Context context ->
@@ -98,39 +95,6 @@ class CondaHostedRecipe
     static Matcher fetchCondaFileMatcher = and(new ActionMatcher(GET, HEAD), condaPathMatcher)
     static Matcher uploadCondaFileMatcher = and(new ActionMatcher(PUT), condaPathMatcher)
     static Matcher deleteCondaFileMatcher = and(new ActionMatcher(DELETE), condaPathMatcher)
-
-    static String removeLeadingSlash(String path) {
-        path.length() > 1 && path[0] == '/' ? path.substring(1) : path
-    }
-
-    final Handler handler = new Handler() {
-        @Override
-        Response handle(@Nonnull Context context) throws Exception {
-            String method = context.getRequest().getAction()
-            String path = removeLeadingSlash(context.getRequest().getPath())
-
-            CondaHostedFacet condaHostedFacet = context
-                    .getRepository()
-                    .facet(CondaHostedFacet.class)
-
-            switch (method) {
-                case GET:
-                case HEAD:
-                    return condaHostedFacet
-                            .fetch(path)
-                            .map({ Content content -> ok(content) })
-                            .orElseGet({ notFound() })
-                case PUT:
-                    Payload payload = context.getRequest().getPayload()
-                    return ok(condaHostedFacet.upload(path, payload))
-                case DELETE:
-                    def success = condaHostedFacet.delete(path)
-                    return success ? ok() : notFound()
-                default:
-                    return methodNotAllowed(context.getRequest().getAction(), GET, HEAD, PUT, DELETE)
-            }
-        }
-    }
 
     /**
      * Configure {@link org.sonatype.nexus.repository.view.ViewFacet}.

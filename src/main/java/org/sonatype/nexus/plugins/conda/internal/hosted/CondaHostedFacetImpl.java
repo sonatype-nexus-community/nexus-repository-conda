@@ -114,9 +114,7 @@ public class CondaHostedFacetImpl
         return true;
     }
 
-
     protected Content doPutContent(final String path, final TempBlob tempBlob, final Payload payload) throws IOException {
-
         StorageTx tx = UnitOfWork.currentTx();
         CondaPath condaPath = CondaPath.build(path);
         Asset asset = getOrCreateAsset(condaPath, getRepository());
@@ -185,7 +183,6 @@ public class CondaHostedFacetImpl
 
     @TransactionalStoreMetadata
     private Asset getOrCreateAsset(final CondaPath condaPath, final Repository repository) {
-
         final String componentName = condaPath.getCoordinates()
                 .map(coordinates -> coordinates.getPackageName())
                 .orElse(condaPath.getFileName());

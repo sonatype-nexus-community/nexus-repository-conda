@@ -66,7 +66,7 @@ public class CondaProxyFacetImpl
     this.condaDataAccess = checkNotNull(condaDataAccess);
   }
 
-  // HACK: Workaround for known CGLIB issue, forces an Import-PackageIndex for org.sonatype.nexus.repository.config
+  // HACK: Workaround for known CGLIB issue, forces an Import-Package for org.sonatype.nexus.repository.config
   @Override
   protected void doValidate(final Configuration configuration) throws Exception {
     super.doValidate(configuration);
