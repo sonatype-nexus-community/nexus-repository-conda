@@ -140,10 +140,31 @@ class MetaDataTest extends GroovyTestCase {
   "version": "1.2.0"
 }'''
 
+    String sampleJson = '''{
+  "arch": null,
+  "build": "py_0",
+  "build_number": 0,
+  "depends": [
+    "alabaster",
+    "invoke",
+    "python",
+    "python-dateutil",
+    "sphinx >=1.6",
+    "sphinx-automodapi",
+    "werkzeug"
+  ],
+  "license": "MIT",
+  "license_family": "MIT",
+  "name": "ablog",
+  "noarch": "python",
+  "platform": null,
+  "subdir": "noarch",
+  "version": "0.9.2"
+}'''
     void test_read_index_json_from_tar_bz2_archive() {
         def input = MetaDataTest.getClass().getResourceAsStream("/sample_package-1.2.0-py_0.tar.bz2")
         def indexJson = readIndexJson(input)
-        assertToString(indexJson, packageJson)
+        assertToString(indexJson, sampleJson)
     }
 
     void test_can_parse_index_json() {
