@@ -12,7 +12,15 @@
     Eclipse Foundation. All other trademarks are the property of their respective owners.
 
 -->
-# Nexus Repository Conda Format
+# Nexus Repository Conda Format...has moved!
+
+> **Huzzah!** Conda is now part of Nexus Repository Manager, which includes the plugin by default.
+
+> You can see the latest source code for the [Conda format](https://github.com/sonatype/nexus-public/tree/master/plugins/nexus-repository-conda) in the [nexus-public](https://github.com/sonatype/nexus-public) repository.
+
+> **Filing issues:** Please file any issues at https://issues.sonatype.org/.
+
+
 
 [![Maven Central](https://img.shields.io/maven-central/v/org.sonatype.nexus.plugins/nexus-repository-conda.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22org.sonatype.nexus.plugins%22%20AND%20a:%22nexus-repository-conda%22) [![CircleCI](https://circleci.com/gh/sonatype-nexus-community/nexus-repository-conda.svg?style=svg)](https://circleci.com/gh/sonatype-nexus-community/nexus-repository-conda) [![Join the chat at https://gitter.im/sonatype/nexus-developers](https://badges.gitter.im/sonatype/nexus-developers.svg)](https://gitter.im/sonatype/nexus-developers?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![DepShield Badge](https://depshield.sonatype.org/badges/sonatype-nexus-community/nexus-repository-conda/depshield.svg)](https://depshield.github.io)
 
