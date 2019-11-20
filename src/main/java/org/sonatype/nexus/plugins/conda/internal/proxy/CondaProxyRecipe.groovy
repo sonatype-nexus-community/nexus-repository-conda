@@ -87,7 +87,7 @@ class CondaProxyRecipe
   private ViewFacet configure(final ConfigurableViewFacet facet) {
     Router.Builder builder = new Router.Builder()
 
-    [rootChannelIndexHtmlMatcher(), rootChannelDataJsonMatcher(), rootChannelRssXmlMatcher(), archIndexHtmlMatcher(), archRepodataJsonMatcher(), archRepodataJsonBz2Matcher(), archRepodata2JsonMatcher(), archCondaPackageMatcher()].each { matcher ->
+    [rootChannelIndexHtmlMatcher(), rootChannelDataJsonMatcher(), rootChannelRssXmlMatcher(), archIndexHtmlMatcher(), archRepodataJsonMatcher(), archRepodataJsonBz2Matcher(), archCurrentRepodataJsonMatcher(), archCurrentRepodataJsonBz2Matcher(), archRepodata2JsonMatcher(), archCondaPackageMatcher()].each { matcher ->
       builder.route(new Route.Builder().matcher(matcher)
           .handler(timingHandler)
           .handler(securityHandler)

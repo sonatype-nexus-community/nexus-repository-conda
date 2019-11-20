@@ -89,6 +89,10 @@ public class CondaProxyFacetImpl
         return getAsset(condaPathUtils.buildArchAssetPath(matcherState, REPODATA_JSON));
       case ARCH_REPODATA_JSON_BZ2:
         return getAsset(condaPathUtils.buildArchAssetPath(matcherState, REPODATA_JSON_BZ2));
+      case ARCH_CURRENT_REPODATA_JSON:
+        return getAsset(condaPathUtils.buildArchAssetPath(matcherState, CURRENT_REPODATA_JSON));
+      case ARCH_CURRENT_REPODATA_JSON_BZ2:
+        return getAsset(condaPathUtils.buildArchAssetPath(matcherState, CURRENT_REPODATA_JSON_BZ2));
       case ARCH_REPODATA2_JSON:
         return getAsset(condaPathUtils.buildArchAssetPath(matcherState, REPODATA2_JSON));
       case ARCH_CONDA_PACKAGE:
@@ -138,6 +142,14 @@ public class CondaProxyFacetImpl
         return putMetadata(content,
             assetKind,
             condaPathUtils.buildArchAssetPath(matcherState, REPODATA_JSON_BZ2));
+      case ARCH_CURRENT_REPODATA_JSON:
+        return putMetadata(content,
+            assetKind,
+            condaPathUtils.buildArchAssetPath(matcherState, CURRENT_REPODATA_JSON));
+      case ARCH_CURRENT_REPODATA_JSON_BZ2:
+        return putMetadata(content,
+            assetKind,
+            condaPathUtils.buildArchAssetPath(matcherState, CURRENT_REPODATA_JSON_BZ2));
       case ARCH_REPODATA2_JSON:
         return putMetadata(content,
             assetKind,
