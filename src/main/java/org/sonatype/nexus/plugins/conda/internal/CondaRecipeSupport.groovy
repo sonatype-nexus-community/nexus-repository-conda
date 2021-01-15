@@ -139,6 +139,14 @@ abstract class CondaRecipeSupport
     buildTokenMatcherForPatternAndAssetKind("/{path:.+}/{arch:.+}/${REPODATA_JSON_BZ2}", AssetKind.ARCH_REPODATA_JSON_BZ2, GET, HEAD)
   }
 
+  static Matcher archCurrentRepodataJsonMatcher() {
+    buildTokenMatcherForPatternAndAssetKind("/{path:.+}/{arch:.+}/${CURRENT_REPODATA_JSON}", AssetKind.ARCH_CURRENT_REPODATA_JSON, GET, HEAD)
+  }
+
+  static Matcher archCurrentRepodataJsonBz2Matcher() {
+    buildTokenMatcherForPatternAndAssetKind("/{path:.+}/{arch:.+}/${CURRENT_REPODATA_JSON_BZ2}", AssetKind.ARCH_CURRENT_REPODATA_JSON_BZ2, GET, HEAD)
+  }
+
   static Matcher archRepodata2JsonMatcher() {
     buildTokenMatcherForPatternAndAssetKind("/{path:.+}/{arch:.+}/${REPODATA2_JSON}", AssetKind.ARCH_REPODATA2_JSON, GET, HEAD)
   }

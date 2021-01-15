@@ -38,6 +38,10 @@ public class CondaPathUtils
 
   public static final String REPODATA_JSON_BZ2 = "repodata.json.bz2";
 
+  public static final String CURRENT_REPODATA_JSON = "current_repodata.json";
+
+  public static final String CURRENT_REPODATA_JSON_BZ2 = "current_repodata.json.bz2";
+
   public static final String REPODATA2_JSON = "repodata2.json";
 
   public static final String TAR_BZ2 = ".tar.bz2";
