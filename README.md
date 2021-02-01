@@ -40,6 +40,7 @@
    * [(most) Permament Install](#most-permanent-install)
 * [The Fine Print](#the-fine-print)
 * [Getting Help](#getting-help)
+* [Integration Tests](#integration-tests)
 
 ## Developing
 
@@ -207,4 +208,32 @@ Looking to contribute to our code but need some help? There's a few ways to get 
 * Check out the [Nexus3](http://stackoverflow.com/questions/tagged/nexus3) tag on Stack Overflow
 * Check out the [Nexus Repository User List](https://groups.google.com/a/glists.sonatype.com/forum/?hl=en#!forum/nexus-users)
 
-[//]: # (throw away change to trigger CI)
+## Integration Tests
+
+There a still some rough edges around writing integration tests, which are noted below.
+Please report any problems you find. 
+
+The main tricks are:
+1. Refactor the project into a “format” module, and an “IT” module. 
+   This allows the “format” module to be bundled up and used by the IT framework classes in the “it” module.
+   In this project, the sub module: [nexus-repository-conda](nexus-repository-conda) is the "format" module.
+   The sub module: [nexus-repository-conda-it](nexus-repository-conda-it) is the "it" module.
+      
+2. In the "format" module, use `maven-install-plugin` during 'verify' phase, ensure the new repository format plugin is installed locally, for use by ITs.
+
+   See: https://github.com/sonatype-nexus-community/nexus-repository-conda/blob/conda-it-md-dr/nexus-repository-conda/pom.xml#L80
+
+3. In the "IT" module, use `maven-dependency-plugin` to avoid IT startup issue the first time they are run.
+
+   The `maven-dependency-plugin` can pull down required runtime dependencies for the IT's. 
+   See: https://github.com/sonatype-nexus-community/nexus-repository-conda/blob/conda-it-md-dr/nexus-repository-conda-it/pom.xml#L92
+   
+#### Debugging ITs
+
+  You can connect a remote debugger to port 5005 to debug Integration Tests. Just add the `-Dit.debug=true` argument 
+  when running ITs. For example:
+  
+    mvn clean verify -Dit.debug=true
+
+  After the IT starts, you can attach a remote debugger to port 5005. Keep trying to attach the remote debugger until
+   the conneciton succeeds.
